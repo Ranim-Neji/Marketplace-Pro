@@ -1,0 +1,49 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Model;
+
+class Conversation extends Model
+{
+    protected $fillable = ['user_one_id', 'user_two_id', 'last_message_at'];
+    protected $casts = [
+        'last_message_at' => 'datetime',
+    ];
+
+    public function userOne()
+    {
+        return $this->belongsTo(User::class, 'user_one_id');
+    }
+
+    public function userTwo()
+    {
+        return $this->belongsTo(User::class, 'user_two_id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class)->orderBy('created_at');
+    }
+
+    public function lastMessage()
+    {
+        return $this->hasOne(Message::class)->latestOfMany();
+    }
+
+    public function scopeForUser(Builder $query, int $userId): Builder
+    {
+        return $query->where(function (Builder $inner) use ($userId) {
+            $inner->where('user_one_id', $userId)
+                ->orWhere('user_two_id', $userId);
+        });
+    }
+
+    public function getOtherUser(int $currentUserId): User
+    {
+        return $this->user_one_id === $currentUserId
+            ? $this->userTwo
+            : $this->userOne;
+    }
+}
