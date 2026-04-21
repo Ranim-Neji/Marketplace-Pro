@@ -9,9 +9,19 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('reviews', function (Blueprint $table) {
+            // Drop foreign keys first to unlock the unique index
+            $table->dropForeign(['product_id']);
+            $table->dropForeign(['user_id']);
+            
+            $table->dropUnique(['product_id', 'user_id']); // Now we can drop it safely
+            
             $table->foreignId('vendor_id')->nullable()->after('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('product_id')->nullable()->change(); // Allow reviews without products (pure vendor reviews)
-            $table->dropUnique(['product_id', 'user_id']); // Drop old unique constraint
+            $table->foreignId('product_id')->nullable()->change(); 
+            
+            // Re-add foreign keys
+            $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            
             $table->unique(['product_id', 'user_id', 'vendor_id'], 'reviews_unique_constraint');
         });
     }
@@ -20,9 +30,11 @@ return new class extends Migration
     {
         Schema::table('reviews', function (Blueprint $table) {
             $table->dropUnique('reviews_unique_constraint');
+            $table->dropForeign(['vendor_id']);
+            $table->dropColumn('vendor_id');
+            
             $table->unique(['product_id', 'user_id']);
             $table->foreignId('product_id')->nullable(false)->change();
-            $table->dropConstrainedForeignId('vendor_id');
         });
     }
 };
