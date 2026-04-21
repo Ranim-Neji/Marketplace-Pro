@@ -20,9 +20,21 @@
                     <a href="{{ route('catalog.index') }}">
                         <x-button size="lg">Explore Catalogue</x-button>
                     </a>
-                    <a href="{{ route('register') }}">
-                        <x-button variant="secondary" size="lg">Become a Seller</x-button>
-                    </a>
+                    @auth
+                        @if(auth()->user()->isVendor())
+                            <a href="{{ route('vendor.products.index') }}">
+                                <x-button variant="secondary" size="lg">Vendor Dashboard</x-button>
+                            </a>
+                        @else
+                            <a href="{{ route('profile.edit') }}?open_vendor_modal=true">
+                                <x-button variant="secondary" size="lg">Become a Seller</x-button>
+                            </a>
+                        @endif
+                    @else
+                        <a href="{{ route('register') }}">
+                            <x-button variant="secondary" size="lg">Become a Seller</x-button>
+                        </a>
+                    @endauth
                 </div>
             </div>
         </div>
@@ -31,14 +43,13 @@
     {{-- Bestsellers 3D Carousel --}}
     <x-bestsellers-carousel :bestsellers="$bestsellers" />
 
-    {{-- Personalized Recommendations (Auth Only) --}}
-    @auth
+    {{-- Personalized Recommendations --}}
     @if(isset($recommendedProducts) && $recommendedProducts->isNotEmpty())
     <section class="py-24 bg-muted/50 border-t border-border backdrop-blur-sm">
         <div class="container-layout">
             <div class="mb-16 text-center space-y-2">
-                <h2 class="text-3xl font-bold text-foreground">Recommended for You</h2>
-                <p class="text-muted-foreground">Tailored suggestions based on your behavior.</p>
+                <h2 class="text-3xl font-bold text-foreground">{{ auth()->check() ? 'Recommended for You' : 'Trending Now' }}</h2>
+                <p class="text-muted-foreground">{{ auth()->check() ? 'Tailored suggestions based on your behavior.' : 'Discover what\'s popular in our community.' }}</p>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -49,7 +60,6 @@
         </div>
     </section>
     @endif
-    @endauth
 
     {{-- Value Props --}}
     <section class="py-24 border-t border-border bg-background/80 backdrop-blur-md">

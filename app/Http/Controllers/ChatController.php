@@ -178,11 +178,23 @@ class ChatController extends Controller
                 'body' => $message->body,
                 'created_at' => $message->created_at->format('H:i'),
             ],
-            'system_response' => [
-                'body' => "Your message has been received. A support agent will be with you shortly.",
-                'sender' => 'System',
+            'support_response' => [
+                'body' => "Thanks for reaching out! We've received your message and someone from our team will get back to you shortly.",
+                'sender' => 'Support',
                 'created_at' => now()->format('H:i'),
             ]
         ]);
+    }
+
+    public function unreadCount()
+    {
+        $count = Message::whereHas('conversation', function ($query) {
+            $query->forUser(Auth::id());
+        })
+        ->where('sender_id', '!=', Auth::id())
+        ->whereNull('read_at')
+        ->count();
+
+        return response()->json(['count' => $count]);
     }
 }

@@ -2,7 +2,6 @@ import './bootstrap';
 import Alpine from 'alpinejs';
 
 window.Alpine = Alpine;
-
 Alpine.start();
 
 // Theme Engine
@@ -74,10 +73,7 @@ if (searchInput && searchResults) {
 
 // Scroll Animation Controller
 if ('IntersectionObserver' in window) {
-    const observerOptions = {
-        threshold: 0.1
-    };
-
+    const observerOptions = { threshold: 0.1 };
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -86,14 +82,11 @@ if ('IntersectionObserver' in window) {
             }
         });
     }, observerOptions);
-
     document.querySelectorAll('.scroll-reveal').forEach(el => observer.observe(el));
 }
 
 function dispatchToast(type, message) {
-    window.dispatchEvent(new CustomEvent('toast', {
-        detail: { type, message },
-    }));
+    window.dispatchEvent(new CustomEvent('toast', { detail: { type, message } }));
 }
 
 const notificationRuntime = {
@@ -103,17 +96,15 @@ const notificationRuntime = {
 
 function renderNotifications(notifications) {
     const list = document.getElementById('notificationList');
-    if (!list) {
-        return;
-    }
+    if (!list) return;
 
-    // Clear previous notifications before rendering.
     list.innerHTML = '';
 
     if (!Array.isArray(notifications) || notifications.length === 0) {
         list.innerHTML = `
-            <div class="p-8 text-center">
-                <p class="text-xs text-muted-foreground">No unread notifications</p>
+            <div class="p-12 text-center flex flex-col items-center gap-3 opacity-40">
+                <i class="fa-solid fa-bell-slash text-2xl"></i>
+                <p class="text-[10px] font-bold uppercase tracking-[0.2em]">Silence is golden</p>
             </div>
         `;
         return;
@@ -124,75 +115,59 @@ function renderNotifications(notifications) {
         const createdAt = notification.created_at_human || notification.created_at || '';
 
         const item = document.createElement('div');
-        item.className = 'p-4 hover:bg-muted/50 transition-colors';
+        item.className = 'p-5 hover:bg-primary/[0.03] transition-all cursor-pointer group relative overflow-hidden';
         item.innerHTML = `
-            <p class="text-sm text-foreground">${message}</p>
-            <p class="text-[10px] text-muted-foreground mt-1 uppercase font-mono">${createdAt}</p>
+            <div class="absolute left-0 top-0 bottom-0 w-1 bg-primary scale-y-0 group-hover:scale-y-100 transition-transform origin-top"></div>
+            <p class="text-[11px] font-medium text-foreground leading-relaxed italic line-clamp-2">${message}</p>
+            <p class="text-[8px] font-black text-muted-foreground mt-2 uppercase tracking-widest font-mono opacity-60 group-hover:opacity-100 transition-opacity">${createdAt}</p>
         `;
 
         list.appendChild(item);
     });
 }
 
+function animateBadge(badge) {
+    badge.classList.remove('animate-pop');
+    void badge.offsetWidth; // Trigger reflow
+    badge.classList.add('animate-pop');
+}
+
 function updateNotificationCounter(count) {
     const badge = document.getElementById('notificationBadge');
     const counter = document.getElementById('notificationCount');
+    if (!badge || !counter) return;
 
-    if (!badge || !counter) {
-        return;
-    }
-
+    const currentCount = parseInt(counter.textContent) || 0;
     counter.textContent = String(count);
 
     if (count > 0) {
         badge.classList.remove('hidden');
+        if (count > currentCount) animateBadge(badge);
     } else {
         badge.classList.add('hidden');
     }
 }
 
 async function fetchNotifications() {
-    const notificationsEndpoint =
-        document.querySelector('meta[name="notifications-fetch-url"]')?.getAttribute('content');
-
-    if (!notificationsEndpoint) {
-        return;
-    }
+    const endpoint = document.querySelector('meta[name="notifications-fetch-url"]')?.getAttribute('content');
+    if (!endpoint) return;
 
     try {
-        console.log('Notifications endpoint:', notificationsEndpoint);
-        const response = await fetch(notificationsEndpoint, {
+        const response = await fetch(endpoint, {
             method: 'GET',
-            credentials: 'same-origin',
-            headers: {
-                Accept: 'application/json',
-                'X-Requested-With': 'XMLHttpRequest',
-            },
+            headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
         });
-
-        if (!response.ok) {
-            throw new Error(`Notification request failed with status ${response.status}`);
-        }
+        if (!response.ok) return;
 
         const data = await response.json();
-        console.log('Notifications response:', data);
-
         const unreadCount = Number(data.count ?? 0);
         const notifications = Array.isArray(data.notifications) ? data.notifications : [];
-        const latestUnreadIds = new Set(notifications.map((notification) => notification.id));
-
-        if (!notificationRuntime.initialized && unreadCount > 0) {
-            dispatchToast('info', `You have ${unreadCount} unread notification${unreadCount > 1 ? 's' : ''}.`);
-        }
+        const latestUnreadIds = new Set(notifications.map(n => n.id));
 
         if (notificationRuntime.initialized) {
             notifications
-                .filter((notification) => !notificationRuntime.knownUnreadIds.has(notification.id))
-                .slice(0, 2)
-                .forEach((notification) => {
-                    const message = notification.message || notification?.data?.message || 'New notification';
-                    dispatchToast('info', message);
-                });
+                .filter(n => !notificationRuntime.knownUnreadIds.has(n.id))
+                .forEach(n => dispatchToast('info', n.message || n?.data?.message || 'New notification'));
         }
 
         notificationRuntime.initialized = true;
@@ -202,48 +177,102 @@ async function fetchNotifications() {
         renderNotifications(notifications);
     } catch (error) {
         console.error('Notifications polling error:', error);
-        dispatchToast('error', 'Unable to load notifications.');
     }
 }
 
-function initNotificationDropdown() {
-    const widget = document.getElementById('notificationWidget');
-    const bell = document.getElementById('notificationBell');
-    const dropdown = document.getElementById('notificationDropdown');
+// Global Chat Counter
+async function fetchChatCount() {
+    const isAuthenticated = document.querySelector('meta[name="app-authenticated"]')?.getAttribute('content') === '1';
+    if (!isAuthenticated) return;
 
-    if (!widget || !bell || !dropdown) {
+    try {
+        const response = await fetch('/chat/unread-count', {
+            headers: { 'Accept': 'application/json', 'X-Requested-With': 'XMLHttpRequest' }
+        });
+        if (!response.ok) return;
+
+        const data = await response.json();
+        const badge = document.getElementById('unreadMessagesBadge');
+        const counter = document.getElementById('unreadMessagesCount');
+        
+        if (badge && counter) {
+            const currentCount = parseInt(counter.textContent) || 0;
+            const newCount = Number(data.count || 0);
+            counter.textContent = String(newCount);
+            
+            if (newCount > 0) {
+                badge.classList.remove('hidden');
+                if (newCount > currentCount) animateBadge(badge);
+            } else {
+                badge.classList.add('hidden');
+            }
+        }
+    } catch (error) {
+        console.error('Chat count polling error:', error);
+    }
+}
+
+// Real-time Chat Notifications (Echo)
+function initChatNotifications() {
+    const isAuthenticated = document.querySelector('meta[name="app-authenticated"]')?.getAttribute('content') === '1';
+    const userId = document.querySelector('meta[name="user-id"]')?.getAttribute('content');
+
+    if (!isAuthenticated || !userId || !window.Echo) {
+        console.warn('[Echo] Real-time chat skipped (Unauthenticated or Echo missing)');
         return;
     }
 
-    bell.addEventListener('click', () => {
-        dropdown.classList.toggle('hidden');
-        if (!dropdown.classList.contains('hidden')) {
+    console.log(`[Echo] Active: Subscribing to private channel: App.Models.User.${userId}`);
+
+    window.Echo.private(`App.Models.User.${userId}`)
+        .listen('.message.sent', (e) => {
+            console.log('[Echo] Event Received: message.sent', e);
+            
+            // Show premium toast notification
+            const shortMessage = e.body.length > 60 ? e.body.substring(0, 57) + '...' : e.body;
+            dispatchToast('info', `Message from ${e.sender}: "${shortMessage}"`);
+            
+            // Instant refresh of counters
+            fetchChatCount();
+            
+            // Trigger badge animation if we are on the messages page
+            const globalBadge = document.getElementById('unreadMessagesBadge');
+            if (globalBadge) animateBadge(globalBadge);
+        })
+        .error((error) => {
+            console.error('[Echo] Subscription error:', error);
+        });
+}
+
+window.markAllAsRead = async function() {
+    try {
+        const response = await fetch('/notifications/read-all', {
+            method: 'PATCH',
+            headers: {
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                'X-Requested-With': 'XMLHttpRequest',
+                'Accept': 'application/json'
+            }
+        });
+        if (response.ok) {
             fetchNotifications();
+            dispatchToast('success', 'All notifications marked as read');
         }
-    });
-
-    document.addEventListener('click', (event) => {
-        if (!widget.contains(event.target)) {
-            dropdown.classList.add('hidden');
-        }
-    });
-}
-
-function startNotificationPolling() {
-    const isAuthenticated =
-        document.querySelector('meta[name="app-authenticated"]')?.getAttribute('content') === '1';
-    const notificationsEndpoint =
-        document.querySelector('meta[name="notifications-fetch-url"]')?.getAttribute('content');
-
-    if (!isAuthenticated || !notificationsEndpoint) {
-        return;
+    } catch (error) {
+        console.error('Mark all as read failed:', error);
     }
+};
+
+function startPolling() {
+    const isAuthenticated = document.querySelector('meta[name="app-authenticated"]')?.getAttribute('content') === '1';
+    if (!isAuthenticated) return;
 
     fetchNotifications();
+    fetchChatCount();
+    initChatNotifications();
 
-    // Poll every 4 seconds for near real-time updates.
-    setInterval(fetchNotifications, 4000);
+    setInterval(fetchNotifications, 5000);
+    setInterval(fetchChatCount, 6000);
 }
 
-initNotificationDropdown();
-startNotificationPolling();
+startPolling();

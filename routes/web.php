@@ -10,6 +10,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\ReviewController;
+use App\Http\Controllers\VendorController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
@@ -17,6 +18,7 @@ Route::get('/', [CatalogController::class, 'index'])->name('home');
 Route::get('/catalogue', [CatalogController::class, 'index'])->name('catalog.index');
 Route::get('/search', [CatalogController::class, 'search'])->name('catalog.search');
 Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/vendors/{user}', [VendorController::class, 'show'])->name('vendors.show');
 
 Route::middleware(['auth', 'verified', 'active'])->get('/dashboard', function () {
     $user = request()->user();
@@ -64,6 +66,7 @@ Route::middleware(['auth', 'verified', 'active'])->group(function () {
 
     Route::prefix('chat')->name('chat.')->group(function () {
         Route::get('/', [ChatController::class, 'index'])->name('index');
+        Route::get('/unread-count', [ChatController::class, 'unreadCount'])->name('unread-count');
         Route::get('/{conversation}', [ChatController::class, 'show'])->name('show');
         Route::post('/{conversation}/send', [ChatController::class, 'send'])->name('send');
         Route::get('/{conversation}/messages', [ChatController::class, 'getMessages'])->name('messages');

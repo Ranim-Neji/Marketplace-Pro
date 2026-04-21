@@ -1,20 +1,20 @@
 @extends('layouts.app')
-@section('title', 'Profile Protocol | MarketPlace Pro')
+@section('title', 'My Profile | MarketPlace Pro')
 
 @section('content')
-<div class="container-layout py-16" x-data="{ vendorModalOpen: false }">
+<div class="container-layout py-16" x-data="{ vendorModalOpen: {{ request()->query('open_vendor_modal') === 'true' ? 'true' : 'false' }} }">
     <div class="flex items-baseline gap-6 mb-12 border-b border-slate-100 dark:border-slate-800 pb-10">
-        <h1 class="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Identity Protocol</h1>
-        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Personal Data Management</div>
+        <h1 class="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Settings</h1>
+        <div class="text-[10px] font-black text-slate-400 uppercase tracking-widest italic">Manage your account and preferences</div>
     </div>
 
-    <form method="POST" action="{{ route('profile.update', absolute: false) }}" enctype="multipart/form-data">
+    <form method="POST" action="{{ route('profile.update', absolute: false) }}" enctype="multipart/form-data" x-data="{ updating: false }" @submit="updating = true">
         @csrf @method('PATCH')
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
             {{-- Avatar & Core --}}
             <div class="lg:col-span-4 space-y-8">
-                <div class="bg-white dark:bg-slate-950 rounded-[3rem] border border-slate-100 dark:border-slate-900 p-10 shadow-sm text-center">
+                <div class="bg-white dark:bg-slate-950 rounded-[3rem] border border-slate-100 dark:border-slate-800 p-10 shadow-sm text-center">
                     <div class="relative inline-block mb-8">
                         <img src="{{ $user->avatar_url }}"
                              id="avatarPreview"
@@ -23,7 +23,7 @@
                                class="absolute bottom-0 right-0 h-10 w-10 bg-indigo-600 text-white rounded-full flex items-center justify-center cursor-pointer shadow-xl hover:scale-110 transition-all">
                             <i class="fa-solid fa-camera text-sm"></i>
                         </label>
-                        <input type="file" id="avatarInput" name="avatar" class="hidden" accept="image/*" onchange="previewAvatar(this)">
+                        <input type="file" id="avatarInput" name="avatar" class="hidden" accept="image/*" onchange="previewAvatar(this)" :disabled="updating">
                     </div>
                     
                     <h2 class="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">{{ $user->name }}</h2>
@@ -41,102 +41,112 @@
                     </div>
                 </div>
 
-                {{-- Security Protocol --}}
-                <div class="bg-white dark:bg-slate-950 rounded-[2.5rem] border border-slate-100 dark:border-slate-900 p-10 shadow-sm">
+                {{-- Security & Password --}}
+                <div class="bg-white dark:bg-slate-950 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 p-10 shadow-sm">
                     <h3 class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
-                        <i class="fa-solid fa-shield-halved text-amber-500"></i> Security Protocol
+                        <i class="fa-solid fa-shield-halved text-amber-500"></i> Password & Security
                     </h3>
                     <div class="space-y-6">
                         <div>
                             <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Current Password</label>
-                            <input type="password" name="current_password" class="input-premium" placeholder="Verification Required">
+                            <input type="password" name="current_password" class="input-premium" placeholder="Enter current password" :disabled="updating">
                             @error('current_password') <div class="text-rose-500 text-[8px] font-black uppercase mt-2">{{ $message }}</div> @enderror
                         </div>
                         <div>
-                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">New Cipher</label>
-                            <input type="password" name="new_password" class="input-premium" placeholder="Min 8 characters">
+                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">New Password</label>
+                            <input type="password" name="new_password" class="input-premium" placeholder="At least 8 characters" :disabled="updating">
                         </div>
                         <div>
-                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Confirm Cipher</label>
-                            <input type="password" name="new_password_confirmation" class="input-premium" placeholder="Repeat Protocol">
+                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Confirm New Password</label>
+                            <input type="password" name="new_password_confirmation" class="input-premium" placeholder="Repeat new password" :disabled="updating">
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{-- Personal Data --}}
+            {{-- Personal Details --}}
             <div class="lg:col-span-8 space-y-12">
-                <div class="bg-white dark:bg-slate-950 rounded-[3rem] border border-slate-100 dark:border-slate-900 p-10 lg:p-12 shadow-sm">
+                <div class="bg-white dark:bg-slate-950 rounded-[3rem] border border-slate-100 dark:border-slate-800 p-10 lg:p-12 shadow-sm">
                     <h3 class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
-                        <i class="fa-solid fa-id-card text-indigo-600"></i> Personnel Data
+                        <i class="fa-solid fa-id-card text-indigo-600"></i> Personal Information
                     </h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                         <div class="space-y-6">
                             <div>
-                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Full Identity Name</label>
-                                <input type="text" name="name" class="input-premium" value="{{ old('name', $user->name) }}" required>
+                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Full Name</label>
+                                <input type="text" name="name" class="input-premium" value="{{ old('name', $user->name) }}" required :disabled="updating">
                             </div>
                             <div>
-                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Communication Email</label>
-                                <input type="email" name="email" class="input-premium" value="{{ old('email', $user->email) }}" required>
+                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Email Address</label>
+                                <input type="email" name="email" class="input-premium" value="{{ old('email', $user->email) }}" required :disabled="updating">
                             </div>
                             <div>
-                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Signal Contact (Phone)</label>
-                                <input type="text" name="phone" class="input-premium" value="{{ old('phone', $user->phone) }}" placeholder="+1 000 000 000">
+                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Phone Number</label>
+                                <input type="text" name="phone" class="input-premium" value="{{ old('phone', $user->phone) }}" placeholder="+1 000 000 000" :disabled="updating">
                             </div>
                         </div>
                         <div class="space-y-6">
                             <div>
-                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Logistic Base (Address)</label>
-                                <textarea name="address" class="input-premium h-28 py-4" placeholder="Deployment Base">{{ old('address', $user->address) }}</textarea>
+                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Shipping Address</label>
+                                <textarea name="address" class="input-premium h-28 py-4" placeholder="Your default delivery address" :disabled="updating">{{ old('address', $user->address) }}</textarea>
                             </div>
                             <div>
-                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Identity Bio</label>
-                                <textarea name="bio" class="input-premium h-28 py-4" placeholder="Personnel History...">{{ old('bio', $user->bio) }}</textarea>
+                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Short Bio</label>
+                                <textarea name="bio" class="input-premium h-28 py-4" placeholder="Tell us a bit about yourself..." :disabled="updating">{{ old('bio', $user->bio) }}</textarea>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Merchant Protocol --}}
+                {{-- Store Settings --}}
                 @if($user->isVendor())
-                    <div class="bg-white dark:bg-slate-950 rounded-[3rem] border border-slate-100 dark:border-slate-900 p-10 lg:p-12 shadow-sm">
+                    <div class="bg-white dark:bg-slate-950 rounded-[3rem] border border-slate-100 dark:border-slate-800 p-10 lg:p-12 shadow-sm">
                         <h3 class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
-                            <i class="fa-solid fa-shop text-emerald-500"></i> Merchant Protocol
+                            <i class="fa-solid fa-shop text-emerald-500"></i> Store Information
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                             <div>
-                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Shop Designation</label>
-                                <input type="text" name="shop_name" class="input-premium" value="{{ old('shop_name', $user->shop_name) }}">
+                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Shop Name</label>
+                                <input type="text" name="shop_name" class="input-premium" value="{{ old('shop_name', $user->shop_name) }}" :disabled="updating">
                             </div>
                             <div>
-                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Commercial Description</label>
-                                <textarea name="shop_description" class="input-premium h-32 py-4">{{ old('shop_description', $user->shop_description) }}</textarea>
+                                <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Shop Description</label>
+                                <textarea name="shop_description" class="input-premium h-32 py-4" :disabled="updating">{{ old('shop_description', $user->shop_description) }}</textarea>
                             </div>
                         </div>
                     </div>
                 @else
                     <div class="p-10 rounded-[3rem] bg-indigo-600 shadow-2xl shadow-indigo-500/20 text-white flex flex-col md:flex-row items-center justify-between gap-8">
                         <div class="max-w-md">
-                            <h3 class="text-xl font-black uppercase tracking-tighter mb-2 italic">Upgrade to Merchant</h3>
+                            <h3 class="text-xl font-black uppercase tracking-tighter mb-2 italic">Sell on MarketPlace</h3>
                             <p class="text-[10px] font-bold text-indigo-100 uppercase tracking-widest leading-relaxed italic">
-                                Initialize your commercial node and start deploying assets to the global vault.
+                                Start your business today. Open your shop and reach thousands of potential buyers instantly.
                             </p>
                         </div>
-                        <button type="button" @click.prevent="vendorModalOpen = true" class="px-10 py-5 bg-white text-indigo-600 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] hover:scale-105 active:scale-95 transition-all">
-                            Initialize Shop
+                        <button type="button" @click.prevent="vendorModalOpen = true" class="px-10 py-5 bg-white text-indigo-600 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] hover:scale-105 active:scale-95 transition-all" :disabled="updating">
+                            Open My Shop
                         </button>
                     </div>
                 @endif
 
                 <div class="flex gap-6">
-                    <button type="submit" class="flex-1 btn-primary py-6 text-[11px] uppercase tracking-[0.4em] font-black shadow-2xl shadow-indigo-500/20 italic group">
-                        Confirm Data Mutation
-                        <i class="fa-solid fa-save ml-3 group-hover:scale-110 transition-transform"></i>
+                    <button type="submit" class="flex-1 btn-primary py-6 text-[11px] uppercase tracking-[0.4em] font-black shadow-2xl shadow-indigo-500/20 italic group flex items-center justify-center gap-3 disabled:opacity-70" :disabled="updating">
+                        <template x-if="!updating">
+                            <div class="flex items-center gap-2">
+                                <span>Save Changes</span>
+                                <i class="fa-solid fa-save ml-3 group-hover:scale-110 transition-transform"></i>
+                            </div>
+                        </template>
+                        <template x-if="updating" x-cloak>
+                            <div class="flex items-center gap-2">
+                                <i class="fa-solid fa-circle-notch animate-spin"></i>
+                                <span>Updating profile...</span>
+                            </div>
+                        </template>
                     </button>
                     <a href="{{ route('home') }}" class="px-12 py-6 rounded-2xl border border-slate-100 dark:border-slate-800 text-[11px] font-black uppercase tracking-[0.3em] text-slate-400 hover:text-slate-900 dark:hover:text-white transition-all italic">
-                        Abort
+                        Cancel
                     </a>
                 </div>
             </div>
@@ -164,24 +174,35 @@
                 
                 <div class="p-10">
                     <div class="flex justify-between items-center mb-10 text-left">
-                        <h5 class="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Initialize Merchant Node</h5>
+                        <h5 class="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Open Your Shop</h5>
                         <button type="button" @click="vendorModalOpen = false" class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-rose-500 transition-colors">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
                     
-                    <form method="POST" action="{{ route('profile.become-vendor', absolute: false) }}" class="space-y-8 text-left">
+                    <form method="POST" action="{{ route('profile.become-vendor', absolute: false) }}" class="space-y-8 text-left" x-data="{ onboarding: false }" @submit="onboarding = true">
                         @csrf
                         <div>
-                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Shop Designation <span class="text-rose-500">*</span></label>
-                            <input type="text" name="shop_name" class="input-premium" placeholder="e.g. CyberTech Node 01" required>
+                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Shop Name <span class="text-rose-500">*</span></label>
+                            <input type="text" name="shop_name" class="input-premium" placeholder="e.g. My Awesome Shop" required :disabled="onboarding">
                         </div>
                         <div>
-                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Commercial Description</label>
-                            <textarea name="shop_description" class="input-premium h-32 py-4" placeholder="Describe your asset portfolio..."></textarea>
+                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Shop Description</label>
+                            <textarea name="shop_description" class="input-premium h-32 py-4" placeholder="What do you plan to sell?" :disabled="onboarding"></textarea>
                         </div>
-                        <button type="submit" class="w-full btn-primary py-6 text-[10px] font-black uppercase tracking-[0.4em] italic">
-                            Activate Merchant Status
+                        <button type="submit" class="w-full btn-primary py-6 text-[10px] font-black uppercase tracking-[0.4em] italic flex items-center justify-center gap-3 group disabled:opacity-70 disabled:cursor-not-allowed" :disabled="onboarding">
+                            <template x-if="!onboarding">
+                                <div class="flex items-center gap-2">
+                                    <span>Launch My Shop</span>
+                                    <i class="fa-solid fa-rocket text-xs group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"></i>
+                                </div>
+                            </template>
+                            <template x-if="onboarding" x-cloak>
+                                <div class="flex items-center gap-2">
+                                    <i class="fa-solid fa-circle-notch animate-spin"></i>
+                                    <span>Creating your seller account...</span>
+                                </div>
+                            </template>
                         </button>
                     </form>
                 </div>

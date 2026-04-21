@@ -12,7 +12,7 @@ class RecommendationController extends Controller
     public function __construct()
     {
         // middleware works now because Controller inheritance is correct
-        $this->middleware(['auth', 'verified', 'active']);
+        $this->middleware(['auth', 'verified', 'active'])->except('getRecommendations');
     }
 
     public function index()
@@ -36,8 +36,16 @@ class RecommendationController extends Controller
      * - Collaborative filtering (similar users)
      * - Popular fallback
      */
-    public function getRecommendations(int $userId, int $limit = 8): \Illuminate\Support\Collection
+    public function getRecommendations(?int $userId, int $limit = 8): \Illuminate\Support\Collection
     {
+        // Fallback for guests or if no history
+        if (!$userId) {
+            return Product::active()
+                ->orderByDesc('views_count')
+                ->take($limit)
+                ->get();
+        }
+
         // 1. Get preferred categories from behavior scores
         $preferredCategoryIds = DB::table('user_behaviors')
             ->join('product_category', 'user_behaviors.product_id', '=', 'product_category.product_id')
@@ -62,9 +70,10 @@ class RecommendationController extends Controller
             ->take($limit)
             ->get();
 
-        // 4. Collaborative filtering if not enough results
-        if ($contentBased->count() < $limit) {
+        $results = $contentBased;
 
+        // 4. Collaborative filtering if not enough results
+        if ($results->count() < $limit) {
             $similarUserIds = DB::table('user_behaviors as ub1')
                 ->join('user_behaviors as ub2', 'ub1.product_id', '=', 'ub2.product_id')
                 ->where('ub1.user_id', $userId)
@@ -81,21 +90,30 @@ class RecommendationController extends Controller
                       ->where('action', 'purchase');
                 })
                 ->whereNotIn('id', $interactedProductIds)
-                ->whereNotIn('id', $contentBased->pluck('id'))
-                ->take($limit - $contentBased->count())
+                ->whereNotIn('id', $results->pluck('id'))
+                ->take($limit - $results->count())
                 ->get();
 
-            return $contentBased->merge($collaborative);
+            $results = $results->merge($collaborative);
         }
 
-        // 5. Fallback: trending products
-        if ($contentBased->isEmpty()) {
-            return Product::active()
+        // 5. Fallback: trending products if still not enough
+        if ($results->count() < $limit) {
+            $trending = Product::active()
+                ->whereNotIn('id', $interactedProductIds)
+                ->whereNotIn('id', $results->pluck('id'))
                 ->orderByDesc('views_count')
-                ->take($limit)
+                ->take($limit - $results->count())
                 ->get();
+
+            $results = $results->merge($trending);
         }
 
-        return $contentBased;
+        // Final fallback if everything else fails (e.g. user saw everything trending)
+        if ($results->isEmpty()) {
+            return Product::active()->latest()->take($limit)->get();
+        }
+
+        return $results;
     }
 }

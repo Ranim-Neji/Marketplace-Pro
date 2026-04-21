@@ -3,7 +3,7 @@
 <div x-data="{ 
     isOpen: false,
     messages: [
-        { body: 'Greetings, Agent. I am your specialized support node. How may I assist your operations today?', is_mine: false, sender: 'Support Bot', time: '{{ now()->format('H:i') }}' }
+        { body: 'Welcome to support 👋\nHow can we help you today?', is_mine: false, sender: 'Support', time: '{{ now()->format('H:i') }}' }
     ],
     newMessage: '',
     isLoading: false,
@@ -44,7 +44,7 @@
                     this.messages.push({
                         body: data.support_response.body,
                         is_mine: false,
-                        sender: data.support_response.sender,
+                        sender: 'Support',
                         time: data.support_response.created_at
                     });
                     this.scrollBottom();
@@ -60,7 +60,9 @@
     scrollBottom() {
         this.$nextTick(() => {
             const container = this.$refs.messageContainer;
-            container.scrollTop = container.scrollHeight;
+            if (container) {
+                container.scrollTop = container.scrollHeight;
+            }
         });
     }
 }" 
@@ -81,13 +83,13 @@ class="fixed bottom-8 right-8 z-[110]">
         <div class="p-6 bg-slate-50 dark:bg-slate-800/50 border-b border-slate-100 dark:border-slate-800 flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="h-10 w-10 bg-primary rounded-2xl flex items-center justify-center text-primary-foreground shadow-lg shadow-primary/30">
-                    <i class="fa-solid fa-headset"></i>
+                    <i class="fa-solid fa-comments"></i>
                 </div>
                 <div>
-                    <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Support Node</h3>
+                    <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Live Support</h3>
                     <div class="flex items-center gap-1.5">
                         <div class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                        <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Active Connectivity</span>
+                        <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Always Online</span>
                     </div>
                 </div>
             </div>
@@ -101,7 +103,7 @@ class="fixed bottom-8 right-8 z-[110]">
             <template x-for="(msg, index) in messages" :key="index">
                 <div :class="msg.is_mine ? 'flex flex-col items-end' : 'flex flex-col items-start'">
                     <div :class="msg.is_mine ? 'bg-primary text-primary-foreground rounded-2xl rounded-tr-none shadow-lg shadow-primary/10' : 'bg-white dark:bg-slate-800 text-slate-800 dark:text-slate-200 rounded-2xl rounded-tl-none border border-slate-100 dark:border-slate-700 shadow-sm'"
-                         class="px-4 py-3 max-w-[85%] text-xs font-medium italic leading-relaxed">
+                         class="px-4 py-3 max-w-[85%] text-xs font-medium italic leading-relaxed whitespace-pre-line">
                         <span x-text="msg.body"></span>
                     </div>
                     <div class="mt-1 flex items-center gap-2 text-[8px] font-black uppercase tracking-widest text-slate-400 italic">
@@ -111,9 +113,23 @@ class="fixed bottom-8 right-8 z-[110]">
                     </div>
                 </div>
             </template>
-            <div x-show="isLoading" class="flex flex-col items-start animate-pulse">
-                <div class="bg-slate-100 dark:bg-slate-800 px-4 py-3 rounded-2xl rounded-tl-none text-slate-400 text-xs italic">
-                    Analyzing transmission...
+            
+            {{-- Typing Indicator --}}
+            <div x-show="isLoading" 
+                 x-transition:enter="transition ease-out duration-300"
+                 x-transition:enter-start="opacity-0 translate-y-2"
+                 x-transition:enter-end="opacity-100 translate-y-0"
+                 x-transition:leave="transition ease-in duration-200"
+                 x-transition:leave-start="opacity-100 translate-y-0"
+                 x-transition:leave-end="opacity-0 translate-y-2"
+                 class="flex flex-col items-start" style="display: none;">
+                <div class="bg-white dark:bg-slate-800 px-4 py-3 rounded-2xl rounded-tl-none border border-slate-100 dark:border-slate-700 shadow-sm flex items-center gap-2">
+                    <span class="text-slate-500 dark:text-slate-400 text-xs italic">We’re typing…</span>
+                    <div class="flex gap-1 items-center">
+                        <span class="w-1 h-1 bg-primary rounded-full animate-bounce [animation-duration:0.6s]"></span>
+                        <span class="w-1 h-1 bg-primary rounded-full animate-bounce [animation-duration:0.6s] [animation-delay:0.1s]"></span>
+                        <span class="w-1 h-1 bg-primary rounded-full animate-bounce [animation-duration:0.6s] [animation-delay:0.2s]"></span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -125,7 +141,7 @@ class="fixed bottom-8 right-8 z-[110]">
                        x-model="newMessage"
                        @keydown.enter="sendMessage()"
                        class="flex-1 px-5 py-3 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-xs font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none dark:text-white placeholder-slate-400"
-                       placeholder="Enter protocol query...">
+                       placeholder="Ask about your order, products, or anything…">
                 <button @click="sendMessage()"
                         class="h-10 w-10 rounded-xl bg-primary text-primary-foreground flex items-center justify-center shadow-lg shadow-primary/30 hover:scale-110 active:scale-95 transition-all">
                     <i class="fa-solid fa-paper-plane text-xs"></i>
@@ -145,7 +161,7 @@ class="fixed bottom-8 right-8 z-[110]">
         </div>
         {{-- Tooltip --}}
         <div x-show="!isOpen" class="absolute right-20 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all pointer-events-none">
-            Contact Support
+            Help Center
         </div>
     </button>
 </div>

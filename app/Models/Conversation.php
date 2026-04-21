@@ -46,4 +46,12 @@ class Conversation extends Model
             ? $this->userTwo
             : $this->userOne;
     }
+
+    public function unreadMessagesCount(int $userId): int
+    {
+        return $this->messages()
+            ->where('sender_id', '!=', $userId)
+            ->whereNull('read_at')
+            ->count();
+    }
 }

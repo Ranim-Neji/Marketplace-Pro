@@ -7,6 +7,7 @@
     <meta name="app-authenticated" content="{{ auth()->check() ? '1' : '0' }}">
     <meta name="notifications-fetch-url" content="{{ auth()->check() ? url('/notifications') : '' }}">
     <meta name="notifications-poll-ms" content="5000">
+    <meta name="user-id" content="{{ auth()->id() }}">
     <title>@yield('title', config('app.name', 'MarketPlace Pro'))</title>
 
     {{-- Fonts --}}

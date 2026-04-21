@@ -47,6 +47,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany(Review::class);
     }
 
+    public function vendorReviews()
+    {
+        return $this->hasMany(Review::class, 'vendor_id')->where('is_approved', true);
+    }
+
+    public function getAverageVendorRatingAttribute(): float
+    {
+        return $this->vendorReviews()->avg('rating') ?? 0.0;
+    }
+
     public function cart()
     {
         return $this->hasOne(Cart::class);
@@ -95,5 +105,16 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->avatar
             ? asset('storage/' . $this->avatar)
             : 'https://ui-avatars.com/api/?name=' . urlencode($this->name) . '&background=random';
+    }
+
+    public function unreadMessagesCount(): int
+    {
+        return Message::whereHas('conversation', function ($query) {
+            $query->where('user_one_id', $this->id)
+                ->orWhere('user_two_id', $this->id);
+        })
+        ->where('sender_id', '!=', $this->id)
+        ->whereNull('read_at')
+        ->count();
     }
 }

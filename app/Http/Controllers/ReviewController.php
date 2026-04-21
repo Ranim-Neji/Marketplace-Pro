@@ -16,38 +16,48 @@ class ReviewController extends Controller
 
     public function store(StoreReviewRequest $request)
     {
-        $product = Product::findOrFail($request->product_id);
+        $productId = $request->product_id;
+        $vendorId = $request->vendor_id;
 
-        // Check if user already reviewed this product
+        if (!$productId && !$vendorId) {
+            return back()->with('error', 'Invalid review target.');
+        }
+
+        // Check if user already reviewed this target
         $existing = Review::where('user_id', Auth::id())
-            ->where('product_id', $product->id)
+            ->when($productId, fn($q) => $q->where('product_id', $productId))
+            ->when($vendorId, fn($q) => $q->where('vendor_id', $vendorId))
             ->first();
 
         if ($existing) {
-            return back()->with('error', 'You have already reviewed this product.');
+            return back()->with('error', 'You have already reviewed this.');
         }
 
-        // Check if user has actually purchased the product
-        $hasPurchased = Auth::user()->orders()
-            ->whereIn('status', ['validated', 'delivered', 'completed'])
-            ->whereHas('items', fn($q) => $q->where('product_id', $product->id))
-            ->exists();
+        $hasPurchased = false;
+        if ($productId) {
+            $product = Product::findOrFail($productId);
+            $hasPurchased = Auth::user()->orders()
+                ->whereIn('status', ['validated', 'delivered', 'completed'])
+                ->whereHas('items', fn($q) => $q->where('product_id', $productId))
+                ->exists();
+            $vendorId = $product->user_id; // Product reviews also count towards vendor
+        }
 
         Review::create([
-            'product_id'  => $product->id,
+            'product_id'  => $productId,
+            'vendor_id'   => $vendorId,
             'user_id'     => Auth::id(),
             'rating'      => $request->rating,
             'title'       => $request->title,
             'comment'     => $request->comment,
-            'is_approved' => $hasPurchased, // auto-approve if verified buyer
+            'is_approved' => $hasPurchased || !$productId, // auto-approve if verified buyer or pure vendor review
         ]);
 
-        // Update product average rating
-        $product->updateAverageRating();
+        if ($productId) {
+            Product::find($productId)->updateAverageRating();
+        }
 
-        return back()->with('success', $hasPurchased
-            ? 'Review published successfully!'
-            : 'Review submitted and pending approval.');
+        return back()->with('success', 'Review submitted successfully!');
     }
 
     public function destroy(Review $review)

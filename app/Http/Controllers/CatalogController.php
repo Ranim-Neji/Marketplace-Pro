@@ -88,11 +88,8 @@ class CatalogController extends Controller
                 ->take(8)
                 ->get();
 
-            $recommendedProducts = collect();
-            if (auth()->check()) {
-                // Call recommendation logic (simplified for home)
-                $recommendedProducts = (new RecommendationController())->getRecommendations(auth()->id(), 4);
-            }
+            // Call recommendation logic (simplified for home)
+            $recommendedProducts = (new RecommendationController())->getRecommendations(auth()->id(), 4);
 
             return view('pages.home', compact('bestsellers', 'featuredProducts', 'recommendedProducts'));
         }

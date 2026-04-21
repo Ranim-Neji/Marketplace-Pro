@@ -12,6 +12,11 @@ use Illuminate\Foundation\Events\Dispatchable;
 class MessageSent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets;
+    
+    public function broadcastAs(): string
+    {
+        return 'message.sent';
+    }
 
     public Message $message;
 
@@ -22,8 +27,17 @@ class MessageSent implements ShouldBroadcast
 
     public function broadcastOn(): array
     {
+        $recipient = $this->message->conversation->getOtherUser($this->message->sender_id);
+        
+        \Log::info('Broadcasting MessageSent', [
+            'message_id' => $this->message->id,
+            'conversation_id' => $this->message->conversation_id,
+            'recipient_id' => $recipient->id
+        ]);
+
         return [
             new PrivateChannel('conversation.' . $this->message->conversation_id),
+            new PrivateChannel('App.Models.User.' . $recipient->id),
         ];
     }
 

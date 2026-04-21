@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Review extends Model
 {
     protected $fillable = [
-        'product_id', 'user_id', 'rating', 'title', 'comment', 'is_approved'
+        'product_id', 'vendor_id', 'user_id', 'rating', 'title', 'comment', 'is_approved'
     ];
 
     protected $casts = ['is_approved' => 'boolean'];
@@ -15,6 +15,11 @@ class Review extends Model
     public function product()
     {
         return $this->belongsTo(Product::class);
+    }
+
+    public function vendor()
+    {
+        return $this->belongsTo(User::class, 'vendor_id');
     }
 
     public function user()

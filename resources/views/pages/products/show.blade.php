@@ -182,7 +182,7 @@
                             <div class="text-sm font-semibold text-foreground truncate">{{ $product->user->shop_name ?: $product->user->name }}</div>
                             <div class="text-[11px] text-muted-foreground mt-0.5">Member since {{ $product->user->created_at->format('Y') }}</div>
                         </div>
-                        <a href="#" class="h-10 w-10 flex items-center justify-center rounded-lg bg-card border border-border text-muted-foreground hover:text-foreground transition-colors shadow-sm">
+                        <a href="{{ route('vendors.show', $product->user) }}" class="h-10 w-10 flex items-center justify-center rounded-lg bg-card border border-border text-muted-foreground hover:text-foreground transition-colors shadow-sm">
                             <i class="fa-solid fa-arrow-right"></i>
                         </a>
                     </div>

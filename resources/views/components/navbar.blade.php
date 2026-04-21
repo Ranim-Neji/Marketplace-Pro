@@ -35,11 +35,17 @@ class="sticky top-0 inset-x-0 z-50 h-16 transition-all duration-300">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12Z" /></svg>
                 </a>
 
-                <a href="{{ route('chat.index') }}" class="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors" title="Messages">
+                @php
+                    $unreadMessages = auth()->user()->unreadMessagesCount();
+                @endphp
+                <a href="{{ route('chat.index') }}" class="relative h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-200" title="Messages">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M7.5 8.25h9m-9 3H12m-9.75 1.51c0 1.6 1.123 2.994 2.707 3.227 1.129.166 2.27.293 3.423.379.35.026.67.21.865.501L12 21l2.755-4.133a1.14 1.14 0 0 1 .865-.501 48.172 48.172 0 0 0 3.423-.379c1.584-.233 2.707-1.626 2.707-3.228V6.741c0-1.602-1.123-2.995-2.707-3.228A48.394 48.394 0 0 0 12 3c-2.392 0-4.744.175-7.043.513C3.373 3.746 2.25 5.14 2.25 6.741v6.028Z" /></svg>
+                    <span id="unreadMessagesBadge" class="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[8px] font-bold px-1.5 py-0.5 rounded-full ring-2 ring-background shadow-sm {{ $unreadMessages > 0 ? '' : 'hidden' }}">
+                        <span id="unreadMessagesCount">{{ $unreadMessages }}</span>
+                    </span>
                 </a>
 
-                <button @click.prevent="$dispatch('open-cart')" class="relative h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors">
+                <button @click.prevent="$dispatch('open-cart')" class="relative h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-200">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 0 0-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 0 0-16.536-1.84M7.5 14.25 5.106 5.272M6 20.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Zm12.75 0a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0Z" /></svg>
                     @php 
                         $cartCount = Cache::remember('cart_count_'.auth()->id(), 60, function() {
@@ -47,24 +53,44 @@ class="sticky top-0 inset-x-0 z-50 h-16 transition-all duration-300">
                         });
                     @endphp
                     @if($cartCount > 0)
-                        <span class="absolute top-1 right-0 translate-x-1/2 -translate-y-1/2 bg-primary text-primary-foreground text-[8px] font-bold px-1.5 py-0.5 rounded-full shadow-sm">{{ $cartCount }}</span>
+                        <span class="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[8px] font-bold px-1.5 py-0.5 rounded-full ring-2 ring-background shadow-sm">{{ $cartCount }}</span>
                     @endif
                 </button>
 
-                <div id="notificationWidget" class="relative">
-                    <button id="notificationBell" type="button" class="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors relative">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" /></svg>
-                        <span id="notificationBadge" class="absolute top-1 right-0 min-w-[14px] h-[14px] px-1 bg-primary text-primary-foreground text-[8px] font-bold rounded-full ring-2 ring-background flex items-center justify-center {{ auth()->user()->unreadNotifications->count() > 0 ? '' : 'hidden' }}">
+                <div id="notificationWidget" class="relative" x-data="{ open: false }">
+                    <button id="notificationBell" @click="open = !open" type="button" class="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-all duration-200 relative">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 group-hover:rotate-12 transition-transform"><path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" /></svg>
+                        <span id="notificationBadge" class="absolute -top-1 -right-1 bg-primary text-primary-foreground text-[8px] font-bold px-1.5 py-0.5 rounded-full ring-2 ring-background shadow-sm {{ auth()->user()->unreadNotifications->count() > 0 ? '' : 'hidden' }}">
                             <span id="notificationCount">{{ auth()->user()->unreadNotifications->count() }}</span>
                         </span>
                     </button>
 
-                    <div id="notificationDropdown" class="hidden absolute right-0 mt-2 w-80 bg-card border border-border rounded-xl shadow-premium overflow-hidden z-50">
-                        <div class="px-4 py-3 border-b border-border flex justify-between items-center bg-muted/30">
-                            <h3 class="text-xs font-bold uppercase tracking-widest text-foreground font-mono">Notifications</h3>
-                            <a href="{{ route('notifications.index') }}" class="text-[10px] font-bold text-primary hover:underline uppercase tracking-widest font-mono">View All</a>
+                    <div id="notificationDropdown" 
+                         x-show="open" 
+                         @click.away="open = false"
+                         x-transition:enter="transition ease-out duration-200"
+                         x-transition:enter-start="opacity-0 scale-95 translate-y-2"
+                         x-transition:enter-end="opacity-100 scale-100 translate-y-0"
+                         x-transition:leave="transition ease-in duration-150"
+                         x-transition:leave-start="opacity-100 scale-100 translate-y-0"
+                         x-transition:leave-end="opacity-0 scale-95 translate-y-2"
+                         class="absolute right-0 mt-3 w-80 bg-card border border-border rounded-2xl shadow-premium overflow-hidden z-50"
+                         style="display: none;">
+                        <div class="px-5 py-4 border-b border-border flex justify-between items-center bg-muted/20">
+                            <h3 class="text-[10px] font-black uppercase tracking-[0.2em] text-foreground font-mono">Notifications</h3>
+                            <a href="{{ route('notifications.index') }}" class="text-[9px] font-black text-primary hover:text-primary/80 uppercase tracking-widest font-mono transition-colors">View All</a>
                         </div>
-                        <div id="notificationList" class="max-h-96 overflow-y-auto divide-y divide-border"></div>
+                        <div id="notificationList" class="max-h-96 overflow-y-auto divide-y divide-border custom-scrollbar">
+                            <div class="p-8 text-center opacity-50">
+                                <i class="fa-solid fa-spinner fa-spin text-primary mb-2"></i>
+                                <p class="text-[10px] font-bold uppercase tracking-widest">Synchronizing...</p>
+                            </div>
+                        </div>
+                        <div class="px-5 py-3 border-t border-border bg-muted/10">
+                            <button onclick="markAllAsRead()" class="w-full text-center text-[9px] font-black uppercase tracking-widest text-muted-foreground hover:text-primary transition-colors">
+                                Mark all as read
+                            </button>
+                        </div>
                     </div>
                 </div>
 
