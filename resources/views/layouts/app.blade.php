@@ -9,38 +9,21 @@
     <meta name="notifications-poll-ms" content="5000">
     <meta name="user-id" content="{{ auth()->id() }}">
     <title>@yield('title', config('app.name', 'MarketPlace Pro'))</title>
-<<<<<<< HEAD
-
-=======
- 
->>>>>>> ajax-smart-search
-    {{-- Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<<<<<<< HEAD
-
-=======
  
->>>>>>> ajax-smart-search
     {{-- Scripts/Styles --}}
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('styles')
 </head>
 <body class="flex flex-col min-h-screen text-foreground transition-colors duration-300 relative bg-background">
     <x-background-gradient />
-<<<<<<< HEAD
-
-    <div class="relative z-10 flex flex-col min-h-screen">
-        <x-navbar />
-
-=======
  
     <div class="relative z-10 flex flex-col min-h-screen">
         <x-navbar />
  
->>>>>>> ajax-smart-search
     {{-- TOAST SYSTEM --}}
     <div x-data="{ 
         toasts: [],
@@ -75,11 +58,7 @@
                 </div>
             @endif
         @endforeach
-<<<<<<< HEAD
-
-=======
  
->>>>>>> ajax-smart-search
         {{-- Dynamic Toasts --}}
         <template x-for="toast in toasts" :key="toast.id">
             <div x-show="toast.show" x-transition class="pointer-events-auto p-4 rounded-lg shadow-premium border flex items-start gap-3 bg-card border-border animate-fade-in">
@@ -88,23 +67,11 @@
             </div>
         </template>
     </div>
-<<<<<<< HEAD
-
-=======
  
->>>>>>> ajax-smart-search
     {{-- MAIN --}}
     <main class="flex-grow flex flex-col">
         @yield('content')
     </main>
-<<<<<<< HEAD
-
-    <x-chat-widget />
-    <x-cart-sidebar />
-
-    {{-- Search Overlay --}}
-    <div x-data="{ 
-=======
  
     <x-chat-widget />
     <x-cart-sidebar />
@@ -113,7 +80,6 @@
     {{-- AJAX SMART SEARCH OVERLAY                                     --}}
     {{-- ============================================================ --}}
     <div x-data="{
->>>>>>> ajax-smart-search
             open: false,
             init() {
                 window.addEventListener('keydown', (e) => {
@@ -124,30 +90,6 @@
                     }
                 });
             }
-<<<<<<< HEAD
-         }" 
-         @keydown.window.escape="open = false"
-         @open-search.window="open = true; $nextTick(() => $refs.searchInput.focus())"
-         x-show="open" 
-         class="fixed inset-0 z-[100] overflow-y-auto p-4 sm:p-6 md:p-20" 
-         style="display: none;">
-        
-        <div x-show="open" x-transition.opacity class="fixed inset-0 bg-background/50 backdrop-blur-sm transition-opacity" @click="open = false"></div>
-
-        <div x-show="open" x-transition class="relative mx-auto max-w-2xl transform divide-y divide-border overflow-hidden rounded-xl bg-card shadow-premium border border-border transition-all mt-10">
-            <div class="relative flex items-center">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 pointer-events-none absolute left-5 text-muted-foreground"><path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" /></svg>
-                <input id="liveSearch" x-ref="searchInput" type="text" class="h-14 w-full border-0 bg-transparent pl-12 pr-16 text-foreground placeholder:text-muted-foreground focus:ring-0 text-sm font-medium outline-none" placeholder="Search products..." role="combobox" aria-expanded="false" aria-controls="options">
-                <div class="absolute right-4 text-[10px] font-bold text-muted-foreground bg-muted px-2 py-1 rounded border border-border">Ctrl K</div>
-            </div>
-
-            <div id="searchResults" class="max-h-96 scroll-py-3 overflow-y-auto p-3 hidden custom-scrollbar">
-                {{-- Results injected via JS --}}
-            </div>
-        </div>
-    </div>
-
-=======
          }"
          @keydown.window.escape="open = false; smartSearch.close()"
          @open-search.window="open = true; $nextTick(() => { $refs.searchInput.focus(); smartSearch.init($refs.searchInput); })"
@@ -445,12 +387,11 @@
         // ── API publique ──────────────────────────────────────────────
         function init(input) {
             inputEl   = input;
-            lastQuery = ''; // reset pour relancer si même terme à la réouverture
+            lastQuery = '';
             input.removeEventListener('input', onInput);
             input.removeEventListener('keydown', onKeyDown);
             input.addEventListener('input', onInput);
             input.addEventListener('keydown', onKeyDown);
-            // Relancer si champ déjà rempli
             if (input.value.trim()) onInput({ target: input });
         }
  
@@ -475,7 +416,6 @@
     })();
     </script>
  
->>>>>>> ajax-smart-search
     {{-- FOOTER --}}
     <footer class="bg-card border-t border-border py-12 mt-20">
         <div class="container-layout">
@@ -531,14 +471,7 @@
         </div>
     </footer>
     </div>
-<<<<<<< HEAD
-
-    @stack('scripts')
-</body>
-</html>
-=======
  
     @stack('scripts')
 </body>
 </html>
->>>>>>> ajax-smart-search
