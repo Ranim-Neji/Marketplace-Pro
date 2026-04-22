@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Events\MessageSent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class ChatController extends Controller
 {
@@ -143,47 +144,48 @@ class ChatController extends Controller
         return response()->json($messages);
     }
 
-    public function support(Request $request)
+    public function ask(Request $request)
     {
         $request->validate(['body' => 'required|string|max:1000']);
 
-        // Find an admin to handle support
-        $admin = User::role('admin')->first() ?: User::where('email', 'admin@marketplace.com')->first();
-        
-        if (!$admin) {
-            return response()->json(['success' => false, 'message' => 'No support agents available.']);
+        $apiKey = env('GEMINI_API_KEY');
+        $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' . $apiKey;
+
+        try {
+            $response = Http::post($url, [
+                'contents' => [
+                    [
+                        'parts' => [
+                            ['text' => $request->body]
+                        ]
+                    ]
+                ]
+            ]);
+
+            if ($response->successful()) {
+                $data = $response->json();
+                $aiResponse = $data['candidates'][0]['content']['parts'][0]['text'] ?? 'Sorry, I could not generate a response.';
+                
+                return response()->json([
+                    'success' => true,
+                    'ai_response' => [
+                        'body' => $aiResponse,
+                        'sender' => 'AI Assistant',
+                        'created_at' => now()->format('H:i'),
+                    ]
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Failed to connect to the AI service. Please try again later.'
+                ], 500);
+            }
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'An error occurred while connecting to the AI service.'
+            ], 500);
         }
-
-        $ids = [Auth::id(), $admin->id];
-        sort($ids);
-
-        $conversation = Conversation::firstOrCreate([
-            'user_one_id' => $ids[0],
-            'user_two_id' => $ids[1],
-        ]);
-
-        $message = $conversation->messages()->create([
-            'sender_id' => Auth::id(),
-            'body'      => $request->body,
-        ]);
-
-        $conversation->update(['last_message_at' => now()]);
-
-        // Broadcast event for real-time
-        broadcast(new MessageSent($message))->toOthers();
-
-        return response()->json([
-            'success' => true,
-            'user_message' => [
-                'body' => $message->body,
-                'created_at' => $message->created_at->format('H:i'),
-            ],
-            'support_response' => [
-                'body' => "Thanks for reaching out! We've received your message and someone from our team will get back to you shortly.",
-                'sender' => 'Support',
-                'created_at' => now()->format('H:i'),
-            ]
-        ]);
     }
 
     public function unreadCount()

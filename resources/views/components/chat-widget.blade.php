@@ -3,7 +3,7 @@
 <div x-data="{ 
     isOpen: false,
     messages: [
-        { body: 'Welcome to support 👋\nHow can we help you today?', is_mine: false, sender: 'Support', time: '{{ now()->format('H:i') }}' }
+        { body: 'Hello! I am your AI Assistant 🤖\nHow can I help you today?', is_mine: false, sender: 'AI Assistant', time: '{{ now()->format('H:i') }}' }
     ],
     newMessage: '',
     isLoading: false,
@@ -26,7 +26,7 @@
         this.scrollBottom();
 
         try {
-            const response = await fetch('{{ route('chat.support') }}', {
+            const response = await fetch('{{ route('chat.ask') }}', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -39,20 +39,31 @@
             const data = await response.json();
 
             if (data.success) {
-                // Simulate a slight delay for realism
-                setTimeout(() => {
-                    this.messages.push({
-                        body: data.support_response.body,
-                        is_mine: false,
-                        sender: 'Support',
-                        time: data.support_response.created_at
-                    });
-                    this.scrollBottom();
-                    this.isLoading = false;
-                }, 1000);
+                this.messages.push({
+                    body: data.ai_response.body,
+                    is_mine: false,
+                    sender: data.ai_response.sender,
+                    time: data.ai_response.created_at
+                });
+            } else {
+                this.messages.push({
+                    body: data.message || 'Sorry, I could not process your request.',
+                    is_mine: false,
+                    sender: 'System',
+                    time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+                });
             }
+            this.scrollBottom();
+            this.isLoading = false;
         } catch (error) {
             console.error('Chat Failure:', error);
+            this.messages.push({
+                body: 'A network error occurred. Please try again.',
+                is_mine: false,
+                sender: 'System',
+                time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            });
+            this.scrollBottom();
             this.isLoading = false;
         }
     },
@@ -86,7 +97,7 @@ class="fixed bottom-8 right-8 z-[110]">
                     <i class="fa-solid fa-comments"></i>
                 </div>
                 <div>
-                    <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Live Support</h3>
+                    <h3 class="text-sm font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">AI Assistant</h3>
                     <div class="flex items-center gap-1.5">
                         <div class="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
                         <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest">Always Online</span>
@@ -161,7 +172,7 @@ class="fixed bottom-8 right-8 z-[110]">
         </div>
         {{-- Tooltip --}}
         <div x-show="!isOpen" class="absolute right-20 bg-slate-900 text-white text-[9px] font-black uppercase tracking-widest px-4 py-2 rounded-xl whitespace-nowrap opacity-0 group-hover:opacity-100 translate-x-4 group-hover:translate-x-0 transition-all pointer-events-none">
-            Help Center
+            AI Chat
         </div>
     </button>
 </div>
