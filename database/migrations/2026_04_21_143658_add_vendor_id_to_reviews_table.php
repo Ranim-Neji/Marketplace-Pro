@@ -16,12 +16,11 @@ return new class extends Migration
             $table->dropUnique(['product_id', 'user_id']); // Now we can drop it safely
             
             $table->foreignId('vendor_id')->nullable()->after('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('product_id')->nullable()->change(); 
+            $table->foreignId('product_id')->nullable()->change(); // Allow reviews without products (pure vendor reviews)
             
             // Re-add foreign keys
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            
             $table->unique(['product_id', 'user_id', 'vendor_id'], 'reviews_unique_constraint');
         });
     }

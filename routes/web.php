@@ -75,7 +75,7 @@ Route::middleware(['auth', 'verified', 'active'])->group(function () {
 
     Route::get('/recommendations', [RecommendationController::class, 'index'])->name('recommendations.index');
 
-    Route::post('/chat-support/send', [ChatController::class, 'support'])->name('chat.support')->middleware('throttle:10,1');
+    Route::post('/chat', [ChatController::class, 'ask'])->name('chat.ask')->middleware('throttle:10,1');
 });
 
 Route::middleware(['auth', 'active'])->group(function () {
