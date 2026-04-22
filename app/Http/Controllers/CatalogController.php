@@ -58,17 +58,21 @@ class CatalogController extends Controller
             default      => $query->latest(),
         };
 
-        $products   = $query->paginate(12)->withQueryString();
+        $products = $query->paginate(12)->withQueryString();
+
         $categories = Category::where('is_active', true)
             ->whereNull('parent_id')
             ->with('children')
             ->orderBy('sort_order')
             ->get();
+
         $vendors = User::query()
             ->where('is_active', true)
             ->where(function ($q) {
                 $q->where('is_vendor', true)
-                    ->orWhereHas('roles', fn($roleQuery) => $roleQuery->where('name', 'vendor'));
+                    ->orWhereHas('roles', fn($roleQuery) =>
+                        $roleQuery->where('name', 'vendor')
+                    );
             })
             ->select('id', 'name', 'shop_name')
             ->orderBy('name')
@@ -88,31 +92,43 @@ class CatalogController extends Controller
                 ->take(8)
                 ->get();
 
-            // Call recommendation logic (simplified for home)
-            $recommendedProducts = (new RecommendationController())->getRecommendations(auth()->id(), 4);
+            $recommendedProducts = (new RecommendationController())
+                ->getRecommendations(auth()->id(), 4);
 
-            return view('pages.home', compact('bestsellers', 'featuredProducts', 'recommendedProducts'));
+            return view('pages.home', compact(
+                'bestsellers',
+                'featuredProducts',
+                'recommendedProducts'
+            ));
         }
 
-        return view('pages.catalog.index', compact('products', 'categories', 'vendors'));
+        return view('pages.catalog.index', compact(
+            'products',
+            'categories',
+            'vendors'
+        ));
     }
 
     public function search(Request $request)
     {
-        $request->validate(['q' => 'required|string|min:2|max:100']);
+        $request->validate([
+            'q' => 'required|string|min:1|max:100'
+        ]);
 
         $products = Product::active()
             ->search($request->q)
             ->with('categories')
             ->take(8)
-            ->get(['id', 'title', 'slug', 'price', 'image']);
+            ->get();
 
-        return response()->json($products->map(fn($p) => [
-            'id'        => $p->id,
-            'title'     => $p->title,
-            'price'     => number_format($p->effective_price, 2),
-            'url'       => route('products.show', $p),
-            'image_url' => $p->image_url,
-        ]));
+        return response()->json([
+            'results' => $products->map(fn($p) => [
+                'id'        => $p->id,
+                'title'     => $p->title,
+                'price'     => number_format($p->effective_price, 2),
+                'url'       => route('products.show', $p),
+                'image_url' => $p->image_url,
+            ]),
+        ]);
     }
 }
