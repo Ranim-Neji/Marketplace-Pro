@@ -49,6 +49,7 @@ class ProductController extends Controller
         $product = DB::transaction(function () use ($request) {
             $data = $request->validated();
             $data['user_id'] = Auth::id();
+            $data['is_featured'] = $request->boolean('is_featured');
 
             if ($request->hasFile('image')) {
                 $data['image'] = $this->uploadImage($request->file('image'), 'products');
@@ -132,6 +133,7 @@ class ProductController extends Controller
 
         DB::transaction(function () use ($request, $product): void {
             $data = $request->validated();
+            $data['is_featured'] = $request->boolean('is_featured');
 
             if ($request->hasFile('image')) {
                 if ($product->image) {

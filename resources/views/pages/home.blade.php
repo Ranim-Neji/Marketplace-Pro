@@ -60,6 +60,49 @@
         </div>
     </section>
     @endif
+    
+    {{-- Featured Products --}}
+    @if(isset($featuredProducts) && $featuredProducts->isNotEmpty())
+    <section class="py-24">
+        <div class="container-layout">
+            <div class="flex items-end justify-between mb-16">
+                <div class="space-y-2">
+                    <x-badge variant="primary">Curated</x-badge>
+                    <h2 class="text-3xl font-bold text-foreground">Featured Selection</h2>
+                </div>
+                <a href="{{ route('catalog.index', ['featured' => 1]) }}" class="text-sm font-bold text-primary hover:underline">View all featured →</a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                @foreach($featuredProducts as $product)
+                    <x-product-card :product="$product" />
+                @endforeach
+            </div>
+        </div>
+    </section>
+    @endif
+
+    {{-- New Arrivals --}}
+    <section class="py-24 bg-muted/30">
+        <div class="container-layout">
+            <div class="flex items-end justify-between mb-16">
+                <div class="space-y-2">
+                    <h2 class="text-3xl font-bold text-foreground">New Arrivals</h2>
+                    <p class="text-muted-foreground">The latest assets deployed to the marketplace.</p>
+                </div>
+                <a href="{{ route('catalog.index') }}" class="text-sm font-bold text-primary hover:underline">Browse catalogue →</a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                @php
+                    $newArrivals = \App\Models\Product::active()->latest()->take(4)->get();
+                @endphp
+                @foreach($newArrivals as $product)
+                    <x-product-card :product="$product" />
+                @endforeach
+            </div>
+        </div>
+    </section>
 
     {{-- Value Props --}}
     <section class="py-24 border-t border-border bg-background/80 backdrop-blur-md">

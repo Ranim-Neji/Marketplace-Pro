@@ -4,9 +4,9 @@
     $variants = [
         'default' => 'border-border text-muted-foreground bg-muted',
         'primary' => 'border-primary text-primary-foreground bg-primary',
-        'success' => 'border-emerald-200 text-emerald-700 bg-emerald-50',
-        'warning' => 'border-amber-200 text-amber-700 bg-amber-50',
-        'danger' => 'border-red-200 text-red-700 bg-red-50',
+        'success' => 'border-primary/20 text-primary bg-primary/5',
+        'warning' => 'border-accent/30 text-accent-foreground bg-accent',
+        'danger' => 'border-warning/30 text-warning bg-warning/10',
     ];
 @endphp
 

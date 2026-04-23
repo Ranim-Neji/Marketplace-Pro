@@ -24,7 +24,7 @@
         }">
             <button @click.prevent="toggle" 
                 class="h-10 w-10 flex items-center justify-center transition-all duration-300 hover:scale-125 group/heart">
-                <i :class="inWishlist ? 'fa-solid text-rose-500 drop-shadow-[0_0_8px_rgba(244,63,94,0.4)]' : 'fa-regular text-white drop-shadow-md group-hover/heart:text-rose-400'" class="fa-heart text-[18px] transition-all"></i>
+                <i :class="inWishlist ? 'fa-solid text-warning drop-shadow-[0_0_8px_rgba(232,103,92,0.4)]' : 'fa-regular text-white drop-shadow-md group-hover/heart:text-warning/70'" class="fa-heart text-[18px] transition-all"></i>
             </button>
         </div>
 

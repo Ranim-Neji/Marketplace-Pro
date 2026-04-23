@@ -7,7 +7,7 @@
     {{-- Protocol Header --}}
     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-8 mb-16 border-b border-slate-100 dark:border-slate-800 pb-10">
         <div class="flex items-center gap-6">
-            <a href="{{ route('orders.index') }}" class="h-10 w-10 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl flex items-center justify-center text-slate-400 hover:text-indigo-600 transition-all">
+            <a href="{{ route('orders.index') }}" class="h-10 w-10 bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-xl flex items-center justify-center text-slate-400 hover:text-primary transition-all">
                 <i class="fa-solid fa-chevron-left text-xs"></i>
             </a>
             <div>
@@ -28,7 +28,7 @@
         <div class="bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-2xl p-8">
             <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-4">Liquidation Strategy</div>
             <div class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-tight">{{ str_replace('_', ' ', $order->payment_method) }}</div>
-            <div class="text-[9px] font-bold text-indigo-600 uppercase tracking-tighter mt-1">{{ ucfirst($order->payment_status) }} verified</div>
+            <div class="text-[9px] font-bold text-primary uppercase tracking-tighter mt-1">{{ ucfirst($order->payment_status) }} verified</div>
         </div>
 
         <div class="bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-800 rounded-2xl p-8">
@@ -63,7 +63,7 @@
                                 <div class="text-[10px] font-black text-slate-900 dark:text-white">x{{ $item->quantity }}</div>
                             </div>
                             <div class="text-right min-w-[100px]">
-                                <div class="text-xs font-black text-indigo-600 font-mono">${{ number_format($item->subtotal, 2) }}</div>
+                                <div class="text-xs font-black text-primary font-mono">${{ number_format($item->subtotal, 2) }}</div>
                             </div>
                         </div>
                     @endforeach
@@ -97,7 +97,7 @@
                     <div class="flex justify-between text-[10px] font-bold text-slate-500 uppercase">
                         <span>Logistics Load</span>
                         @if($order->shipping == 0)
-                            <span class="text-emerald-600 font-black">WAIVED</span>
+                            <span class="text-primary font-black">WAIVED</span>
                         @else
                             <span class="text-slate-900 dark:text-white font-mono">${{ number_format($order->shipping, 2) }}</span>
                         @endif
@@ -105,7 +105,7 @@
                     <div class="pt-6 border-t border-slate-100 dark:border-slate-900">
                         <div class="flex justify-between items-end">
                             <span class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-widest">Aggregate</span>
-                            <div class="text-3xl font-black text-indigo-600 font-mono tracking-tighter">${{ number_format($order->total, 2) }}</div>
+                            <div class="text-3xl font-black text-primary font-mono tracking-tighter">${{ number_format($order->total, 2) }}</div>
                         </div>
                     </div>
                 </div>

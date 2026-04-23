@@ -25,7 +25,7 @@
                     <h1 class="text-4xl lg:text-5xl font-black text-foreground tracking-tighter italic uppercase">
                         {{ $user->shop_name ?: $user->name }}
                     </h1>
-                    <span class="inline-flex px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-500 text-[10px] font-black uppercase tracking-[0.2em] border border-emerald-500/20 w-fit self-center">
+                    <span class="inline-flex px-3 py-1 rounded-lg bg-primary/10 text-primary text-[10px] font-black uppercase tracking-[0.2em] border border-primary/20 w-fit self-center">
                         Verified Seller
                     </span>
                 </div>
@@ -124,7 +124,7 @@
                                 <img src="{{ $review->user->avatar_url }}" class="h-8 w-8 rounded-full border border-border">
                                 <div class="text-[10px] font-black text-foreground uppercase tracking-wider">{{ $review->user->name }}</div>
                             </div>
-                            <div class="flex text-[8px] text-amber-500">
+                            <div class="flex text-[8px] text-accent">
                                 @for($i = 1; $i <= 5; $i++)
                                     <i class="fa-solid fa-star {{ $i > $review->rating ? 'opacity-30' : '' }}"></i>
                                 @endfor
@@ -157,9 +157,9 @@ stars.forEach(star => {
         const val = this.dataset.value;
         stars.forEach((s, i) => {
             if (i < val) {
-                s.classList.replace('text-border', 'text-amber-500');
+                s.classList.replace('text-border', 'text-accent');
             } else {
-                s.classList.replace('text-amber-500', 'text-border');
+                s.classList.replace('text-accent', 'text-border');
             }
         });
     });
@@ -173,9 +173,9 @@ document.getElementById('starRating')?.addEventListener('mouseleave', function()
     const selected = parseInt(ratingInput.value) || 0;
     stars.forEach((s, i) => {
         if (i < selected) {
-            s.classList.replace('text-border', 'text-amber-500');
+            s.classList.replace('text-border', 'text-accent');
         } else {
-            s.classList.replace('text-amber-500', 'text-border');
+            s.classList.replace('text-accent', 'text-border');
         }
     });
 });

@@ -4,8 +4,8 @@
 @section('content')
 <div class="container-layout py-16">
     <div class="mb-16">
-        <div class="flex items-center gap-4 text-[11px] font-black text-indigo-500 uppercase tracking-[0.4em] mb-4">
-            <div class="h-px w-12 bg-indigo-500"></div>
+        <div class="flex items-center gap-4 text-[11px] font-black text-primary uppercase tracking-[0.4em] mb-4">
+            <div class="h-px w-12 bg-primary"></div>
             Intelligence Engine
         </div>
         <h1 class="text-4xl md:text-5xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Correlated Protocol Feed</h1>
@@ -33,7 +33,7 @@
                     <h2 class="text-3xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Global Hotnodes</h2>
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-2">Maximum interaction density in the last 24h</p>
                 </div>
-                <a href="{{ route('catalog.index', ['sort' => 'popular']) }}" class="text-[10px] font-black text-indigo-600 uppercase tracking-widest hover:underline italic">View All Popular</a>
+                <a href="{{ route('catalog.index', ['sort' => 'popular']) }}" class="text-[10px] font-black text-primary uppercase tracking-widest hover:underline italic">View All Popular</a>
             </div>
             
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10">

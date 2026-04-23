@@ -31,11 +31,11 @@
 
             {{-- Table Body --}}
             @foreach($orders as $order)
-                <div class="group bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-900 rounded-2xl p-6 sm:px-10 hover:border-indigo-600 transition-all">
+                <div class="group bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-900 rounded-2xl p-6 sm:px-10 hover:border-primary transition-all">
                     <div class="grid grid-cols-1 sm:grid-cols-12 items-center gap-6">
                         {{-- ID --}}
                         <div class="col-span-3 flex items-center gap-4">
-                            <div class="h-10 w-10 bg-slate-50 dark:bg-slate-900 rounded-xl flex items-center justify-center text-[10px] font-black text-indigo-600 border border-slate-100 dark:border-slate-800">
+                            <div class="h-10 w-10 bg-slate-50 dark:bg-slate-900 rounded-xl flex items-center justify-center text-[10px] font-black text-primary border border-slate-100 dark:border-slate-800">
                                 #
                             </div>
                             <div class="min-w-0">
@@ -48,11 +48,11 @@
                         <div class="col-span-2">
                             <span class="inline-flex items-center gap-2 px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-100 dark:border-slate-800">
                                 @if($order->status == 'completed')
-                                    <div class="h-1.5 w-1.5 bg-emerald-500 rounded-full"></div>
+                                    <div class="h-1.5 w-1.5 bg-primary rounded-full"></div>
                                 @elseif($order->status == 'cancelled')
-                                    <div class="h-1.5 w-1.5 bg-rose-500 rounded-full"></div>
+                                    <div class="h-1.5 w-1.5 bg-warning rounded-full"></div>
                                 @else
-                                    <div class="h-1.5 w-1.5 bg-indigo-500 rounded-full"></div>
+                                    <div class="h-1.5 w-1.5 bg-primary rounded-full"></div>
                                 @endif
                                 {{ ucfirst($order->status) }}
                             </span>
@@ -66,19 +66,19 @@
 
                         {{-- Value --}}
                         <div class="col-span-3 text-right">
-                            <div class="text-sm font-black text-indigo-600 font-mono tracking-tighter">${{ number_format($order->total, 2) }}</div>
+                            <div class="text-sm font-black text-primary font-mono tracking-tighter">${{ number_format($order->total, 2) }}</div>
                             <div class="text-[9px] font-black text-slate-400 uppercase tracking-widest">{{ ucfirst($order->payment_status) }}</div>
                         </div>
 
                         {{-- Interaction --}}
                         <div class="col-span-2 flex justify-end gap-3">
-                            <a href="{{ route('orders.show', $order) }}" class="h-9 w-9 flex items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-indigo-600 hover:border-indigo-600 transition-all">
+                            <a href="{{ route('orders.show', $order) }}" class="h-9 w-9 flex items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-primary hover:border-primary transition-all">
                                 <i class="fa-solid fa-expand text-[10px]"></i>
                             </a>
                             @if(in_array($order->status, ['pending', 'processing']))
                                 <form method="POST" action="{{ route('orders.cancel', $order) }}" onsubmit="return confirm('Abort transaction?');">
                                     @csrf @method('PATCH')
-                                    <button class="h-9 w-9 flex items-center justify-center rounded-lg bg-rose-50 dark:bg-rose-900/10 border border-rose-100 dark:border-rose-900 text-rose-500 hover:bg-rose-500 hover:text-white transition-all">
+                                    <button class="h-9 w-9 flex items-center justify-center rounded-lg bg-warning/10 border border-warning/20 text-warning hover:bg-warning hover:text-white transition-all">
                                         <i class="fa-solid fa-xmark text-[10px]"></i>
                                     </button>
                                 </form>

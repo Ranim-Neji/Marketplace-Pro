@@ -13,13 +13,22 @@
         --foreground: #0f172a;
         --muted-foreground: #475569;
 
-        /* === PRIMARY (KEEP YOUR PINK BUT CLEANER) === */
-        --primary: #e6067a;
+        /* === PRIMARY (PINKISH MAGENTA) === */
+        --primary: #C91C7A;
+        --primary-hover: #68097E;
         --primary-foreground: #ffffff;
 
-        /* === ACCENTS (SOFT, NOT FLASHY) === */
-        --accent: #f8fafc;
-        --accent-foreground: #e6067a;
+        /* === DARK BACKGROUND (PURPLE-ISH) === */
+        --dark: #3F194D;
+        --dark-foreground: #ffffff;
+
+        /* === ACCENT / CTA (YELLOW) === */
+        --accent: #FFCA06;
+        --accent-foreground: #3F194D;
+
+        /* === WARNING / ERROR (SOFT RED) === */
+        --warning: #E8675C;
+        --warning-foreground: #ffffff;
 
         /* === UI ELEMENTS === */
         --border: #e2e8f0;
@@ -27,23 +36,23 @@
         --muted: #f8fafc;
 
         /* === SIDEBAR === */
-        --sidebar: #fafafa;
-        --sidebar-border: #eeeeee;
-        --sidebar-accent: #fff0f6;
-        --sidebar-foreground: #1f1f2a;
-        --sidebar-primary: #e6067a;
+        --sidebar: #3F194D;
+        --sidebar-border: rgba(255, 255, 255, 0.1);
+        --sidebar-accent: #68097E;
+        --sidebar-foreground: #ffffff;
+        --sidebar-primary: #C91C7A;
         --sidebar-primary-foreground: #ffffff;
 
         /* === RING / FOCUS === */
-        --ring: rgba(230, 6, 122, 0.25);
-        --sidebar-ring: rgba(230, 6, 122, 0.25);
+        --ring: rgba(201, 28, 122, 0.25);
+        --sidebar-ring: rgba(201, 28, 122, 0.25);
 
-        /* === CHART COLORS (SOFT PREMIUM GRADIENT SET) === */
-        --chart-1: #e6067a;
-        --chart-2: #ff4da6;
-        --chart-3: #ff85c2;
-        --chart-4: #ffd1e8;
-        --chart-5: #f8b4d9;
+        /* === CHART COLORS (UPDATED TO NEW SYSTEM) === */
+        --chart-1: #C91C7A;
+        --chart-2: #68097E;
+        --chart-3: #FFCA06;
+        --chart-4: #E8675C;
+        --chart-5: #3F194D;
 
         /* === TYPOGRAPHY === */
         --font-sans: 'Poppins', sans-serif;

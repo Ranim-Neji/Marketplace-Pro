@@ -23,11 +23,20 @@ export default {
                 },
                 primary: {
                     DEFAULT: 'var(--primary)',
-                    foreground: 'var(--primary-foreground)'
+                    foreground: 'var(--primary-foreground)',
+                    hover: 'var(--primary-hover)',
                 },
                 accent: {
                     DEFAULT: 'var(--accent)',
                     foreground: 'var(--accent-foreground)'
+                },
+                dark: {
+                    DEFAULT: 'var(--dark)',
+                    foreground: 'var(--dark-foreground)'
+                },
+                warning: {
+                    DEFAULT: 'var(--warning)',
+                    foreground: 'var(--warning-foreground)'
                 },
                 border: 'var(--border)',
                 input: 'var(--input)',

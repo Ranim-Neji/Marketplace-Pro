@@ -11,7 +11,7 @@
     @if($wishlist->isEmpty())
         <div class="py-32 flex flex-col items-center justify-center bg-white dark:bg-slate-900 rounded-[3rem] border border-slate-100 dark:border-slate-800 animate-fade-in">
             <div class="h-24 w-24 bg-slate-50 dark:bg-slate-800 rounded-full flex items-center justify-center mb-10 group">
-                <i class="fa-solid fa-heart text-3xl text-slate-200 group-hover:text-rose-500 transition-colors"></i>
+                <i class="fa-solid fa-heart text-3xl text-slate-200 group-hover:text-warning transition-colors"></i>
             </div>
             <h2 class="text-xl font-black dark:text-white uppercase tracking-tighter mb-4 italic">Wishlist Empty</h2>
             <p class="text-xs text-slate-500 mb-10 uppercase font-bold tracking-widest">No products are currently in your wishlist</p>

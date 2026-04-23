@@ -259,11 +259,11 @@
  
             // Badge fuzzy (correction de typo)
             const fuzzyBadge = isFuzzy ? `
-                <div class="px-3 py-1.5 bg-amber-50 dark:bg-amber-900/20 border-b border-amber-100 dark:border-amber-800 flex items-center gap-1.5">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 text-amber-500">
+                <div class="px-3 py-1.5 bg-accent/10 border-b border-accent/20 flex items-center gap-1.5">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-3 h-3 text-accent">
                         <path fill-rule="evenodd" d="M9.315 7.584C12.195 3.883 16.695 1.5 21.75 1.5a.75.75 0 0 1 .75.75c0 5.056-2.383 9.555-6.084 12.436A6.75 6.75 0 0 1 9.75 22.5a.75.75 0 0 1-.75-.75v-4.131A15.838 15.838 0 0 1 6.382 15H2.25a.75.75 0 0 1-.75-.75 6.75 6.75 0 0 1 4.815-6.465l2.149-.719c.141-.047.288-.06.433-.038Zm-3.12 9.184 1.9-1.9a15.856 15.856 0 0 1-1.9 1.9Z" clip-rule="evenodd" />
                     </svg>
-                    <span class="text-[10px] font-bold text-amber-600 dark:text-amber-400 uppercase tracking-wider">Résultats similaires (correction de faute)</span>
+                    <span class="text-[10px] font-bold text-accent-foreground uppercase tracking-wider">Résultats similaires (correction de faute)</span>
                 </div>` : '';
  
             // Cartes produit
@@ -363,7 +363,7 @@
                 if (container) {
                     container.innerHTML = `
                         <div class="flex items-center gap-3 p-5 text-sm text-muted-foreground">
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-rose-400 flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 text-warning flex-shrink-0">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
                             </svg>
                             <span>Erreur de recherche. Veuillez réessayer.</span>
@@ -457,7 +457,7 @@
                     @auth
                         <form method="POST" action="{{ route('logout', absolute: false) }}">
                             @csrf
-                            <button type="submit" class="text-xs font-black uppercase tracking-[0.2em] text-rose-500 hover:text-rose-600 transition-colors flex items-center gap-2">
+                            <button type="submit" class="text-xs font-black uppercase tracking-[0.2em] text-warning hover:opacity-80 transition-colors flex items-center gap-2">
                                 <i class="fa-solid fa-power-off"></i>
                                 Sign Out
                             </button>

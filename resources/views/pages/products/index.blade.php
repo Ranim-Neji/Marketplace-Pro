@@ -34,7 +34,7 @@
 
             {{-- Table Body --}}
             @foreach($products as $product)
-                <div class="group bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-900 rounded-2xl p-6 sm:px-10 hover:border-indigo-600 transition-all">
+                <div class="group bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-900 rounded-2xl p-6 sm:px-10 hover:border-primary transition-all">
                     <div class="grid grid-cols-1 sm:grid-cols-12 items-center gap-6">
                         {{-- Asset --}}
                         <div class="col-span-4 flex items-center gap-6">
@@ -50,14 +50,14 @@
                         {{-- Status --}}
                         <div class="col-span-2">
                             <span class="inline-flex items-center gap-2 px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white border border-slate-100 dark:border-slate-800">
-                                <div class="h-1.5 w-1.5 rounded-full {{ $product->status === 'active' ? 'bg-emerald-500' : 'bg-slate-300' }}"></div>
+                                <div class="h-1.5 w-1.5 rounded-full {{ $product->status === 'active' ? 'bg-primary' : 'bg-slate-300' }}"></div>
                                 {{ ucfirst($product->status) }}
                             </span>
                         </div>
 
                         {{-- Price --}}
                         <div class="col-span-2 text-right">
-                            <div class="text-sm font-black text-indigo-600 font-mono tracking-tighter">${{ number_format($product->effective_price, 2) }}</div>
+                            <div class="text-sm font-black text-primary font-mono tracking-tighter">${{ number_format($product->effective_price, 2) }}</div>
                             @if($product->sale_price)
                                 <div class="text-[8px] font-bold text-slate-300 line-through uppercase">${{ number_format($product->price, 2) }}</div>
                             @endif
@@ -67,21 +67,21 @@
                         <div class="col-span-2 text-right">
                             <div class="text-sm font-black text-slate-900 dark:text-white">{{ $product->stock }} <span class="text-[9px] text-slate-400 uppercase tracking-tighter ml-1">Units</span></div>
                             <div class="w-16 h-1 bg-slate-100 dark:bg-slate-900 rounded-full mt-2 ml-auto overflow-hidden">
-                                <div class="h-full bg-indigo-500" style="width: {{ min(100, ($product->stock / 50) * 100) }}%"></div>
+                                <div class="h-full bg-primary" style="width: {{ min(100, ($product->stock / 50) * 100) }}%"></div>
                             </div>
                         </div>
 
                         {{-- Interaction --}}
                         <div class="col-span-2 flex justify-end gap-3">
-                            <a href="{{ route('products.show', $product) }}" class="h-9 w-9 flex items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-indigo-600 hover:border-indigo-600 transition-all">
+                            <a href="{{ route('products.show', $product) }}" class="h-9 w-9 flex items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-primary hover:border-primary transition-all">
                                 <i class="fa-solid fa-eye text-[10px]"></i>
                             </a>
-                            <a href="{{ route('vendor.products.edit', $product) }}" class="h-9 w-9 flex items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-amber-500 hover:border-amber-500 transition-all">
+                            <a href="{{ route('vendor.products.edit', $product) }}" class="h-9 w-9 flex items-center justify-center rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-accent hover:border-accent transition-all">
                                 <i class="fa-solid fa-pen text-[10px]"></i>
                             </a>
                             <form method="POST" action="{{ route('vendor.products.destroy', $product) }}" class="inline" onsubmit="return confirm('Purge asset?');">
                                 @csrf @method('DELETE')
-                                <button class="h-9 w-9 flex items-center justify-center rounded-lg bg-rose-50 dark:bg-rose-900/10 border border-rose-100 dark:border-rose-900 text-rose-500 hover:bg-rose-500 hover:text-white transition-all">
+                                <button class="h-9 w-9 flex items-center justify-center rounded-lg bg-warning/10 border border-warning/20 text-warning hover:bg-warning hover:text-white transition-all">
                                     <i class="fa-solid fa-trash text-[10px]"></i>
                                 </button>
                             </form>

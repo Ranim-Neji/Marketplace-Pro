@@ -20,7 +20,7 @@
                              id="avatarPreview"
                              class="h-40 w-40 rounded-full border-4 border-white dark:border-slate-800 shadow-2xl object-cover">
                         <label for="avatarInput"
-                               class="absolute bottom-0 right-0 h-10 w-10 bg-indigo-600 text-white rounded-full flex items-center justify-center cursor-pointer shadow-xl hover:scale-110 transition-all">
+                               class="absolute bottom-0 right-0 h-10 w-10 bg-primary text-primary-foreground rounded-full flex items-center justify-center cursor-pointer shadow-xl hover:scale-110 transition-all">
                             <i class="fa-solid fa-camera text-sm"></i>
                         </label>
                         <input type="file" id="avatarInput" name="avatar" class="hidden" accept="image/*" onchange="previewAvatar(this)" :disabled="updating">
@@ -34,7 +34,7 @@
                             <span class="px-3 py-1 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-[8px] font-black uppercase tracking-widest text-slate-500">{{ $role }}</span>
                         @endforeach
                         @if($user->isVendor())
-                            <span class="px-3 py-1 rounded-lg bg-amber-50 dark:bg-amber-900/10 border border-amber-100 dark:border-amber-900/30 text-[8px] font-black uppercase tracking-widest text-amber-600">
+                            <span class="px-3 py-1 rounded-lg bg-accent/10 border border-accent/20 text-[8px] font-black uppercase tracking-widest text-accent">
                                 <i class="fa-solid fa-shop mr-1"></i>{{ $user->shop_name }}
                             </span>
                         @endif
@@ -44,13 +44,13 @@
                 {{-- Security & Password --}}
                 <div class="bg-white dark:bg-slate-950 rounded-[2.5rem] border border-slate-100 dark:border-slate-800 p-10 shadow-sm">
                     <h3 class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
-                        <i class="fa-solid fa-shield-halved text-amber-500"></i> Password & Security
+                        <i class="fa-solid fa-shield-halved text-accent"></i> Password & Security
                     </h3>
                     <div class="space-y-6">
                         <div>
                             <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Current Password</label>
                             <input type="password" name="current_password" class="input-premium" placeholder="Enter current password" :disabled="updating">
-                            @error('current_password') <div class="text-rose-500 text-[8px] font-black uppercase mt-2">{{ $message }}</div> @enderror
+                            @error('current_password') <div class="text-warning text-[8px] font-black uppercase mt-2">{{ $message }}</div> @enderror
                         </div>
                         <div>
                             <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">New Password</label>
@@ -68,7 +68,7 @@
             <div class="lg:col-span-8 space-y-12">
                 <div class="bg-white dark:bg-slate-950 rounded-[3rem] border border-slate-100 dark:border-slate-800 p-10 lg:p-12 shadow-sm">
                     <h3 class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
-                        <i class="fa-solid fa-id-card text-indigo-600"></i> Personal Information
+                        <i class="fa-solid fa-id-card text-primary"></i> Personal Information
                     </h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
@@ -103,7 +103,7 @@
                 @if($user->isVendor())
                     <div class="bg-white dark:bg-slate-950 rounded-[3rem] border border-slate-100 dark:border-slate-800 p-10 lg:p-12 shadow-sm">
                         <h3 class="text-xs font-black text-slate-900 dark:text-white uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
-                            <i class="fa-solid fa-shop text-emerald-500"></i> Store Information
+                            <i class="fa-solid fa-shop text-primary"></i> Store Information
                         </h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                             <div>
@@ -117,21 +117,21 @@
                         </div>
                     </div>
                 @else
-                    <div class="p-10 rounded-[3rem] bg-indigo-600 shadow-2xl shadow-indigo-500/20 text-white flex flex-col md:flex-row items-center justify-between gap-8">
+                    <div class="p-10 rounded-[3rem] bg-primary shadow-2xl shadow-primary/20 text-white flex flex-col md:flex-row items-center justify-between gap-8">
                         <div class="max-w-md">
                             <h3 class="text-xl font-black uppercase tracking-tighter mb-2 italic">Sell on MarketPlace</h3>
-                            <p class="text-[10px] font-bold text-indigo-100 uppercase tracking-widest leading-relaxed italic">
+                            <p class="text-[10px] font-bold text-white/80 uppercase tracking-widest leading-relaxed italic">
                                 Start your business today. Open your shop and reach thousands of potential buyers instantly.
                             </p>
                         </div>
-                        <button type="button" @click.prevent="vendorModalOpen = true" class="px-10 py-5 bg-white text-indigo-600 rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] hover:scale-105 active:scale-95 transition-all" :disabled="updating">
+                        <button type="button" @click.prevent="vendorModalOpen = true" class="px-10 py-5 bg-white text-primary rounded-2xl text-[10px] font-black uppercase tracking-[0.3em] hover:scale-105 active:scale-95 transition-all" :disabled="updating">
                             Open My Shop
                         </button>
                     </div>
                 @endif
 
                 <div class="flex gap-6">
-                    <button type="submit" class="flex-1 btn-primary py-6 text-[11px] uppercase tracking-[0.4em] font-black shadow-2xl shadow-indigo-500/20 italic group flex items-center justify-center gap-3 disabled:opacity-70" :disabled="updating">
+                    <button type="submit" class="flex-1 btn-primary py-6 text-[11px] uppercase tracking-[0.4em] font-black shadow-2xl shadow-primary/20 italic group flex items-center justify-center gap-3 disabled:opacity-70" :disabled="updating">
                         <template x-if="!updating">
                             <div class="flex items-center gap-2">
                                 <span>Save Changes</span>
@@ -175,7 +175,7 @@
                 <div class="p-10">
                     <div class="flex justify-between items-center mb-10 text-left">
                         <h5 class="text-xl font-black text-slate-900 dark:text-white uppercase tracking-tighter italic">Open Your Shop</h5>
-                        <button type="button" @click="vendorModalOpen = false" class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-rose-500 transition-colors">
+                        <button type="button" @click="vendorModalOpen = false" class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 text-slate-400 hover:text-warning transition-colors">
                             <i class="fa-solid fa-xmark"></i>
                         </button>
                     </div>
@@ -183,7 +183,7 @@
                     <form method="POST" action="{{ route('profile.become-vendor', absolute: false) }}" class="space-y-8 text-left" x-data="{ onboarding: false }" @submit="onboarding = true">
                         @csrf
                         <div>
-                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Shop Name <span class="text-rose-500">*</span></label>
+                            <label class="block text-[9px] font-black text-slate-400 uppercase tracking-widest mb-3">Shop Name <span class="text-warning">*</span></label>
                             <input type="text" name="shop_name" class="input-premium" placeholder="e.g. My Awesome Shop" required :disabled="onboarding">
                         </div>
                         <div>
@@ -213,7 +213,7 @@
 
 <style>
     .input-premium {
-        @apply w-full px-6 py-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 text-sm font-medium focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all outline-none dark:text-white placeholder-slate-400;
+        @apply w-full px-6 py-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-100 dark:border-slate-800 text-sm font-medium focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all outline-none dark:text-white placeholder-slate-400;
     }
 </style>
 @endsection

@@ -6,8 +6,8 @@
 <div class="space-y-10">
     {{-- Basic Intelligence Section --}}
     <div class="space-y-6">
-        <h3 class="text-xs font-black text-indigo-500 uppercase tracking-widest flex items-center gap-2">
-            <span class="h-2 w-2 bg-indigo-500 rounded-full"></span> Basic Intelligence
+        <h3 class="text-xs font-black text-primary uppercase tracking-widest flex items-center gap-2">
+            <span class="h-2 w-2 bg-primary rounded-full"></span> Basic Intelligence
         </h3>
         
         <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
@@ -39,8 +39,8 @@
 
     {{-- Logistics & Economics Section --}}
     <div class="space-y-6">
-        <h3 class="text-xs font-black text-emerald-500 uppercase tracking-widest flex items-center gap-2">
-            <span class="h-2 w-2 bg-emerald-500 rounded-full animate-pulse"></span> Economics & Inventory
+        <h3 class="text-xs font-black text-accent uppercase tracking-widest flex items-center gap-2">
+            <span class="h-2 w-2 bg-accent rounded-full animate-pulse"></span> Economics & Inventory
         </h3>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -64,7 +64,7 @@
 
             <div>
                 <label for="status" class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block ml-1">Visibility Status</label>
-                <select id="status" name="status" class="input-premium !py-[15px] @error('status') border-rose-500 @enderror selection:bg-indigo-600" required>
+                <select id="status" name="status" class="input-premium !py-[15px] @error('status') border-warning @enderror selection:bg-primary" required>
                     @foreach(['active' => 'Market Active', 'inactive' => 'Temporarily Offline', 'draft' => 'Draft In Review'] as $value => $label)
                         <option value="{{ $value }}" @selected(old('status', $product->status ?? 'active') === $value)>{{ $label }}</option>
                     @endforeach
@@ -73,10 +73,10 @@
             </div>
         </div>
 
-        <div class="flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border-2 border-slate-100 dark:border-slate-800 focus-within:border-indigo-500 transition-all group">
-            <input type="checkbox" value="1" id="is_featured" name="is_featured" @checked((bool) old('is_featured', $product->is_featured ?? false)) class="h-5 w-5 rounded text-indigo-600 focus:ring-indigo-500/20 border-slate-300 dark:border-slate-700 dark:bg-slate-800">
+        <div class="flex items-center gap-3 p-4 bg-slate-50 dark:bg-slate-900 rounded-2xl border-2 border-slate-100 dark:border-slate-800 focus-within:border-primary transition-all group">
+            <input type="checkbox" value="1" id="is_featured" name="is_featured" @checked((bool) old('is_featured', $product->is_featured ?? false)) class="h-5 w-5 rounded text-primary focus:ring-primary/20 border-slate-300 dark:border-slate-700 dark:bg-slate-800">
             <label for="is_featured" class="text-sm font-black text-slate-700 dark:text-slate-300 uppercase tracking-widest cursor-pointer select-none">
-                Promote as Featured <span class="text-[10px] text-indigo-500 ml-2 font-bold">(Will appear in primary billboards)</span>
+                Promote as Featured <span class="text-[10px] text-primary ml-2 font-bold">(Will appear in primary billboards)</span>
             </label>
         </div>
     </div>
@@ -91,12 +91,12 @@
             @foreach($categories as $category)
                 <label class="group relative cursor-pointer">
                     <input type="checkbox" name="categories[]" value="{{ $category->id }}" @checked(in_array($category->id, $selectedCategoryIds)) class="sr-only peer">
-                    <div class="flex items-center justify-center p-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 peer-checked:border-indigo-500 peer-checked:bg-indigo-50 dark:peer-checked:bg-indigo-900/10 transition-all hover:border-slate-300 dark:hover:border-slate-700">
-                        <span class="text-xs font-black text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white peer-checked:text-indigo-600 dark:peer-checked:text-indigo-400 uppercase tracking-widest">
+                    <div class="flex items-center justify-center p-4 rounded-2xl border-2 border-slate-100 dark:border-slate-800 bg-white dark:bg-slate-900 peer-checked:border-primary peer-checked:bg-primary/10 transition-all hover:border-slate-300 dark:hover:border-slate-700">
+                        <span class="text-xs font-black text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white peer-checked:text-primary dark:peer-checked:text-primary uppercase tracking-widest">
                             {{ $category->name }}
                         </span>
                         <div class="absolute top-2 right-2 opacity-0 peer-checked:opacity-100 transition-opacity">
-                            <i class="fa-solid fa-circle-check text-indigo-500 text-[10px]"></i>
+                            <i class="fa-solid fa-circle-check text-primary text-[10px]"></i>
                         </div>
                     </div>
                 </label>
@@ -117,12 +117,12 @@
                 <label for="image" class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block ml-1">Primary Hero Asset {{ $isEdit ? '(Optional Update)' : '*' }}</label>
                 <div class="relative group">
                     <input id="image" name="image" type="file" accept="image/*" class="sr-only" {{ $isEdit ? '' : 'required' }} onchange="previewMain(event)">
-                    <label for="image" class="flex flex-col items-center justify-center h-48 rounded-[2.5rem] border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-indigo-500 transition-all bg-slate-50/50 dark:bg-slate-950/50 cursor-pointer overflow-hidden p-4 text-center">
+                    <label for="image" class="flex flex-col items-center justify-center h-48 rounded-[2.5rem] border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-primary transition-all bg-slate-50/50 dark:bg-slate-950/50 cursor-pointer overflow-hidden p-4 text-center">
                         <div id="main-preview-container" class="{{ $isEdit ? '' : 'hidden' }} absolute inset-0">
                             <img id="main-preview" src="{{ $isEdit ? $product->image_url : '' }}" class="h-full w-full object-cover">
                         </div>
                         <div id="main-placeholder" class="{{ $isEdit ? 'hidden' : '' }} flex flex-col items-center gap-3">
-                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-slate-300 group-hover:text-indigo-500 transition-colors"></i>
+                            <i class="fa-solid fa-cloud-arrow-up text-3xl text-slate-300 group-hover:text-primary transition-colors"></i>
                             <span class="text-[10px] font-black text-slate-400 uppercase tracking-widest">Drop Primary High-Res PNG/JPG</span>
                         </div>
                         <div class="absolute inset-x-0 bottom-0 py-2 bg-black/60 text-white text-[8px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
@@ -138,7 +138,7 @@
                 <label for="additional_images" class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2 block ml-1">Supporting Product Views (Up to 5)</label>
                 <div class="relative group">
                     <input id="additional_images" name="additional_images[]" type="file" accept="image/*" multiple class="sr-only">
-                    <label for="additional_images" class="flex flex-col items-center justify-center h-48 rounded-[2.5rem] border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-indigo-500 transition-all bg-slate-50/50 dark:bg-slate-950/50 cursor-pointer p-4 text-center group">
+                    <label for="additional_images" class="flex flex-col items-center justify-center h-48 rounded-[2.5rem] border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-primary transition-all bg-slate-50/50 dark:bg-slate-950/50 cursor-pointer p-4 text-center group">
                         <div class="flex flex-col items-center gap-3">
                             <div class="flex gap-2">
                                 <i class="fa-solid fa-image text-slate-200 text-lg"></i>

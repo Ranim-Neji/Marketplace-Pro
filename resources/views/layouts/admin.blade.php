@@ -153,7 +153,7 @@
                     <div class="h-px w-4 bg-border hidden sm:block"></div>
                     <form method="POST" action="{{ route('logout', absolute: false) }}">
                         @csrf
-                        <button class="h-12 px-6 rounded-2xl border border-rose-100 dark:border-rose-900/30 text-rose-500 text-[10px] font-black uppercase tracking-widest hover:bg-rose-50 dark:hover:bg-rose-900/10 transition-all italic">
+                        <button class="h-12 px-6 rounded-2xl border border-warning/20 text-warning text-[10px] font-black uppercase tracking-widest hover:bg-warning/10 transition-all italic">
                             Logout
                         </button>
                     </form>
@@ -163,11 +163,11 @@
             {{-- Dashboard Content --}}
             <div class="p-10">
                 @if(session('success'))
-                    <div class="mb-10 p-6 rounded-3xl bg-emerald-50 dark:bg-emerald-900/10 border border-emerald-100 dark:border-emerald-900/30 flex items-center gap-4 animate-slide-up">
-                        <div class="h-10 w-10 bg-emerald-500 rounded-xl flex items-center justify-center text-white">
+                    <div class="mb-10 p-6 rounded-3xl bg-primary/10 border border-primary/20 flex items-center gap-4 animate-slide-up">
+                        <div class="h-10 w-10 bg-primary rounded-xl flex items-center justify-center text-white">
                             <i class="fa-solid fa-check"></i>
                         </div>
-                        <div class="text-[10px] font-black text-emerald-600 dark:text-emerald-400 uppercase tracking-widest italic">{{ session('success') }}</div>
+                        <div class="text-[10px] font-black text-primary uppercase tracking-widest italic">{{ session('success') }}</div>
                     </div>
                 @endif
 
@@ -182,7 +182,7 @@
                     <a href="{{ route('profile.edit') }}" class="hover:text-primary transition-colors">Settings</a>
                     <form method="POST" action="{{ route('logout', absolute: false) }}" class="inline">
                         @csrf
-                        <button type="submit" class="hover:text-rose-500 transition-colors uppercase">Sign Out</button>
+                        <button type="submit" class="hover:text-warning transition-colors uppercase">Sign Out</button>
                     </form>
                 </div>
             </footer>

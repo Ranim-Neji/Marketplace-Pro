@@ -23,6 +23,7 @@ class StoreProductRequest extends FormRequest
             'stock'             => 'required|integer|min:0',
             'sku'               => 'nullable|string|unique:products,sku|max:100',
             'status'            => 'required|in:active,inactive,draft',
+            'is_featured'       => 'nullable|boolean',
             'categories'        => 'required|array|min:1',
             'categories.*'      => 'exists:categories,id',
             'image'             => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',

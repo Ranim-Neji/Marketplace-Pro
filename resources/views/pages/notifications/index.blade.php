@@ -12,7 +12,7 @@
         @if(auth()->user()->unreadNotifications->isNotEmpty())
             <form method="POST" action="{{ route('notifications.read-all', absolute: false) }}" data-ajax-notification data-ajax-notification-action="mark-all">
                 @csrf @method('PATCH')
-                <button type="submit" class="text-[10px] font-black text-indigo-600 uppercase tracking-widest hover:underline italic">
+                <button type="submit" class="text-[10px] font-black text-primary uppercase tracking-widest hover:underline italic">
                     Mark All as Read
                 </button>
             </form>
@@ -28,10 +28,10 @@
     @else
         <div class="space-y-4">
             @foreach($notifications as $notification)
-                <div data-notification-item="{{ $notification->id }}" class="group p-8 rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-900 shadow-sm hover:border-indigo-500/30 transition-all {{ $notification->unread() ? 'border-l-4 border-l-indigo-500' : '' }}">
+                <div data-notification-item="{{ $notification->id }}" class="group p-8 rounded-[2rem] bg-white dark:bg-slate-950 border border-slate-100 dark:border-slate-900 shadow-sm hover:border-primary/30 transition-all {{ $notification->unread() ? 'border-l-4 border-l-primary' : '' }}">
                     <div class="flex flex-col sm:flex-row justify-between items-start gap-6">
                         <div class="flex gap-6">
-                            <div class="h-12 w-12 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-indigo-600 shrink-0">
+                            <div class="h-12 w-12 rounded-2xl bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800 flex items-center justify-center text-primary shrink-0">
                                 @switch($notification->data['type'] ?? '')
                                     @case('order_status')
                                         <i class="fa-solid fa-box-open"></i>
@@ -49,7 +49,7 @@
                                 <div class="flex items-center gap-4">
                                     <span class="text-[8px] font-black text-slate-400 uppercase tracking-widest italic">{{ $notification->created_at->diffForHumans() }}</span>
                                     @if(isset($notification->data['url']))
-                                        <a href="{{ $notification->data['url'] }}" class="text-[8px] font-black text-indigo-600 uppercase tracking-widest hover:underline italic">View Details</a>
+                                        <a href="{{ $notification->data['url'] }}" class="text-[8px] font-black text-primary uppercase tracking-widest hover:underline italic">View Details</a>
                                     @endif
                                 </div>
                             </div>
@@ -58,7 +58,7 @@
                         @if($notification->unread())
                             <form method="POST" action="{{ route('notifications.read', ['id' => $notification->id], absolute: false) }}" data-ajax-notification data-ajax-notification-action="mark-read">
                                 @csrf @method('PATCH')
-                                <button type="submit" class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-400 hover:text-indigo-600 transition-all">
+                                <button type="submit" class="h-10 w-10 flex items-center justify-center rounded-xl bg-slate-50 dark:bg-slate-900 text-slate-400 hover:text-primary transition-all">
                                     <i class="fa-solid fa-check"></i>
                                 </button>
                             </form>

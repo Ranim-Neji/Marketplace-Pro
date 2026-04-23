@@ -36,11 +36,11 @@
 
                     <textarea name="shipping_address"
                               id="shippingAddress"
-                              class="input-base h-28 @error('shipping_address') border-red-500 @enderror"
+                              class="input-base h-28 @error('shipping_address') border-warning @enderror"
                               placeholder="Full shipping address..."
                               required>{{ old('shipping_address', auth()->user()->address) }}</textarea>
                     @error('shipping_address')
-                        <div class="text-red-500 text-[11px] font-medium mt-2">{{ $message }}</div>
+                        <div class="text-warning text-[11px] font-medium mt-2">{{ $message }}</div>
                     @enderror
                 </div>
 

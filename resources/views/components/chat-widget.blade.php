@@ -163,7 +163,7 @@ class="fixed bottom-8 right-8 z-[110]">
 
     {{-- Floating Toggle Button --}}
     <button @click="isOpen = !isOpen; if(isOpen) scrollBottom()"
-            class="h-16 w-16 rounded-[2rem] bg-white border-2 border-primary text-primary shadow-[0_15px_40px_rgba(230,6,122,0.2)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all group relative">
+            class="h-16 w-16 rounded-[2rem] bg-white border-2 border-primary text-primary shadow-[0_15px_40px_rgba(201,28,122,0.2)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all group relative">
         <div x-show="!isOpen" x-transition class="absolute inset-0 flex items-center justify-center">
             <i class="fa-solid fa-comment-dots text-2xl group-hover:rotate-12 transition-transform text-primary"></i>
         </div>

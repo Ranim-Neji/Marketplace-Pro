@@ -65,7 +65,7 @@
                    @mouseenter="hoveredTab = '{{ $item['name'] }}'; updateIndicator($event.currentTarget)"
                    data-active="{{ $isActive ? 'true' : 'false' }}"
                    class="relative block px-5 py-2 text-sm font-semibold transition-colors duration-300 z-20 rounded-full"
-                   :class="(hoveredTab === '{{ $item['name'] }}') || (!hoveredTab && '{{ $isActive ? 'true' : 'false' }}' === 'true') ? 'text-primary-foreground' : 'text-[#91185c] hover:text-primary'"
+                   :class="(hoveredTab === '{{ $item['name'] }}') || (!hoveredTab && '{{ $isActive ? 'true' : 'false' }}' === 'true') ? 'text-primary-foreground' : 'text-primary/70 hover:text-primary'"
                 >
                     {{ $item['name'] }}
                 </a>

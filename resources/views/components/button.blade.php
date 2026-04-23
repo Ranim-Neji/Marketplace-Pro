@@ -1,13 +1,14 @@
 @props(['variant' => 'primary', 'size' => 'md'])
 
 @php
-    $baseClasses = 'inline-flex items-center justify-center font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:ring-offset-2 dark:focus:ring-white dark:focus:ring-offset-zinc-950 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none rounded-lg';
+    $baseClasses = 'inline-flex items-center justify-center font-medium transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none rounded-lg';
     
     $variants = [
-        'primary' => 'bg-slate-900 text-white hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-zinc-200 shadow-sm',
-        'secondary' => 'bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-700 dark:text-zinc-300 hover:bg-slate-50 dark:hover:bg-zinc-800 shadow-sm',
-        'ghost' => 'text-slate-600 dark:text-zinc-400 hover:bg-slate-100 dark:hover:bg-zinc-800',
-        'danger' => 'bg-red-50 text-red-600 hover:bg-red-100 dark:bg-red-900/20 dark:text-red-400 border border-red-200 dark:border-red-900/30',
+        'primary' => 'bg-primary text-primary-foreground hover:bg-primary-hover shadow-sm',
+        'secondary' => 'bg-accent text-accent-foreground hover:opacity-90 shadow-sm',
+        'ghost' => 'text-foreground hover:bg-muted',
+        'danger' => 'bg-warning text-warning-foreground hover:opacity-90',
+        'dark' => 'bg-dark text-dark-foreground hover:opacity-90 shadow-sm',
     ];
 
     $sizes = [
