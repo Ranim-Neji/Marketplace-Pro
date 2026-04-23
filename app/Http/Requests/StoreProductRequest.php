@@ -36,10 +36,12 @@ class StoreProductRequest extends FormRequest
     {
         return [
             'title.required'       => 'Product title is required.',
-            'image.required'       => 'Please upload a product image.',
+            'image.required'       => 'A primary product image is mandatory.',
             'image.max'            => 'Image must not exceed 2MB.',
             'categories.required'  => 'Please select at least one category.',
             'sale_price.lt'        => 'Sale price must be lower than the regular price.',
+            'sku.unique'           => 'This SKU is already registered in our system. Please use a unique identifier.',
+            'price.min'            => 'The product price must be a positive value.',
         ];
     }
 }

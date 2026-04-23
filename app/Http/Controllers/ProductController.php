@@ -59,6 +59,8 @@ class ProductController extends Controller
             $product = Product::create($data);
             $product->categories()->sync($data['categories']);
 
+            \Log::info("Product created: ID {$product->id}, Title: {$product->title}, User: " . Auth::id());
+
             if ($request->hasFile('additional_images')) {
                 foreach ($request->file('additional_images') as $index => $imageFile) {
                     $product->images()->create([

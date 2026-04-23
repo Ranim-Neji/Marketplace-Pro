@@ -23,13 +23,16 @@
 
                 @if($errors->any())
                     <div class="bg-warning/10 border border-warning/20 rounded-2xl p-6 mb-8">
-                        <div class="flex items-center gap-3 mb-4">
-                            <i class="fa-solid fa-triangle-exclamation text-warning"></i>
-                            <h4 class="text-xs font-black text-warning uppercase tracking-widest">Initialization Failed</h4>
+                        <div class="flex items-center gap-3 text-warning mb-4">
+                            <i class="fa-solid fa-circle-exclamation"></i>
+                            <span class="text-xs font-black uppercase tracking-widest">Action Required</span>
                         </div>
                         <ul class="space-y-2">
                             @foreach($errors->all() as $error)
-                                <li class="text-[10px] font-bold text-warning uppercase tracking-tight">• {{ $error }}</li>
+                                <li class="text-[10px] font-bold text-warning/80 uppercase tracking-wide flex items-center gap-2">
+                                    <div class="h-1 w-1 rounded-full bg-warning"></div>
+                                    {{ $error }}
+                                </li>
                             @endforeach
                         </ul>
                     </div>
@@ -113,7 +116,7 @@
                                         <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 font-mono">$</div>
                                         <input type="number"
                                                name="sale_price"
-                                               class="input-premium pl-10 @error('sale_price') border-rose-500 @enderror"
+                                               class="input-premium pl-10 @error('sale_price') border-warning @enderror"
                                                value="{{ old('sale_price') }}"
                                                step="0.01"
                                                min="0"
@@ -138,7 +141,7 @@
                                     <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-3">SKU Identifier</label>
                                     <input type="text"
                                            name="sku"
-                                           class="input-premium @error('sku') border-rose-500 @enderror"
+                                           class="input-premium @error('sku') border-warning @enderror"
                                            value="{{ old('sku') }}"
                                            placeholder="e.g. PROD-001">
                                 </div>
