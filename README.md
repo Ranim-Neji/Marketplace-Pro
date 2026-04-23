@@ -1,5 +1,4 @@
 🛒 MarketPlace Pro
-
 Laravel 11 Multi-Vendor E-Commerce Platform
 
 MarketPlace Pro is a full-featured, production-ready e-commerce platform built with Laravel 11.
@@ -48,21 +47,17 @@ cd Marketplace-Pro
 composer install
 3. Setup environment
 copy .env.example .env
-
 4. Generate application key
 php artisan key:generate
 5. Run migrations
 php artisan migrate
-
 6. Install frontend dependencies
 npm install
 7. Build assets
 npm run build
 8. Start the server
 php artisan serve
-
-App will run at:
-
+🌐 App URL
 http://127.0.0.1:8000
 🗄️ Database Structure
 
@@ -109,12 +104,12 @@ $user->createToken('api')->plainTextToken;
 👤 Demo Accounts
 Admin
 admin@marketplace.com
-password123
+password
 Vendors
 vendor1@marketplace.com → vendor10@marketplace.com
 password123
 Buyers
-buyer1@marketplace.com → buyer20@marketplace.com
+buyer2@marketplace.com → buyer20@marketplace.com
 password123
 ✅ Quality Checks
 php artisan test
