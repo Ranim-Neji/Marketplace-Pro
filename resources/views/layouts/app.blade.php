@@ -439,7 +439,7 @@
                 <div>
                     <h4 class="text-xs font-semibold uppercase tracking-wider text-foreground mb-6 font-mono">Support</h4>
                     <div class="space-y-4">
-                        <a href="#" class="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+                        <a href="mailto:support@marketplace-pro.com" class="inline-flex items-center justify-center px-6 py-3 bg-primary text-primary-foreground rounded-xl text-[10px] font-black uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
                             Contact Support
                         </a>
                         <ul class="space-y-3 text-[11px] font-medium">

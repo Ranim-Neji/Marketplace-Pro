@@ -147,9 +147,6 @@
                             <div id="notificationList" class="max-h-96 overflow-y-auto divide-y divide-border"></div>
                         </div>
                     </div>
-                    <a href="{{ route('profile.edit') }}" class="h-12 w-12 rounded-2xl bg-accent border border-border text-muted-foreground hover:text-primary transition-all flex items-center justify-center shadow-sm group">
-                        <i class="fa-solid fa-gear transition-transform group-hover:rotate-90"></i>
-                    </a>
                     <div class="h-px w-4 bg-border hidden sm:block"></div>
                     <form method="POST" action="{{ route('logout', absolute: false) }}">
                         @csrf
@@ -178,8 +175,7 @@
                 <div class="text-[9px] font-black text-muted-foreground uppercase tracking-widest italic">© {{ date('Y') }} MarketPlace Pro Admin • V1.0</div>
                 <div class="flex items-center gap-8 text-[9px] font-black text-muted-foreground uppercase tracking-widest italic">
                     <a href="#" class="hover:text-primary transition-colors">Documentation</a>
-                    <a href="#" class="hover:text-primary transition-colors">Support Center</a>
-                    <a href="{{ route('profile.edit') }}" class="hover:text-primary transition-colors">Settings</a>
+                    <a href="mailto:support@marketplace-pro.com" class="hover:text-primary transition-colors">Support Center</a>
                     <form method="POST" action="{{ route('logout', absolute: false) }}" class="inline">
                         @csrf
                         <button type="submit" class="hover:text-warning transition-colors uppercase">Sign Out</button>
@@ -213,6 +209,21 @@
             } else {
                 document.documentElement.classList.add('dark');
                 localStorage.theme = 'dark';
+            }
+        });
+
+        // Notification System
+        const bell = document.getElementById('notificationBell');
+        const dropdown = document.getElementById('notificationDropdown');
+        
+        bell?.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdown?.classList.toggle('hidden');
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!dropdown?.contains(e.target) && !bell?.contains(e.target)) {
+                dropdown?.classList.add('hidden');
             }
         });
     </script>
