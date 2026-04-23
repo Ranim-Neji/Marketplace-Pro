@@ -21,7 +21,7 @@
                     class="pl-11 w-full bg-input/50 backdrop-blur-sm border border-border rounded-2xl px-4 py-3.5 text-sm text-foreground focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-muted-foreground/50 shadow-sm hover:border-muted-foreground/30" 
                     placeholder="you@example.com">
             </div>
-            <x-input-error :messages="$errors->get('email')" class="mt-2 text-xs font-medium text-red-500 ml-1" />
+            <x-input-error :messages="$errors->get('email')" class="mt-2 text-xs font-medium text-warning ml-1" />
         </div>
 
         <!-- Password -->
@@ -42,7 +42,7 @@
                     class="pl-11 w-full bg-input/50 backdrop-blur-sm border border-border rounded-2xl px-4 py-3.5 text-sm text-foreground focus:ring-4 focus:ring-primary/10 focus:border-primary outline-none transition-all placeholder:text-muted-foreground/50 shadow-sm hover:border-muted-foreground/30" 
                     placeholder="••••••••">
             </div>
-            <x-input-error :messages="$errors->get('password')" class="mt-2 text-xs font-medium text-red-500 ml-1" />
+            <x-input-error :messages="$errors->get('password')" class="mt-2 text-xs font-medium text-warning ml-1" />
         </div>
 
         <!-- Remember Me -->

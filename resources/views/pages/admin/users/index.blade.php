@@ -22,7 +22,7 @@
             </select>
             <button class="bg-primary text-white px-8 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-opacity italic shadow-premium">Filter</button>
             @if(request()->anyFilled(['search', 'role']))
-                <a href="{{ route('admin.users.index') }}" class="px-6 py-4 rounded-2xl bg-accent text-muted-foreground text-[10px] font-black uppercase tracking-widest hover:text-rose-500 transition-all italic">Clear</a>
+                <a href="{{ route('admin.users.index') }}" class="px-6 py-4 rounded-2xl bg-accent text-muted-foreground text-[10px] font-black uppercase tracking-widest hover:text-warning transition-all italic">Clear</a>
             @endif
         </form>
     </div>
@@ -65,7 +65,7 @@
                                 </div>
                             </td>
                             <td class="px-8 py-8 text-center">
-                                <span class="px-3 py-1 rounded-lg {{ $user->is_active ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100' }} border text-[8px] font-black uppercase tracking-widest italic">
+                                <span class="px-3 py-1 rounded-lg {{ $user->is_active ? 'bg-emerald-50 text-primary border-primary' : 'bg-rose-50 text-warning border-warning' }} border text-[8px] font-black uppercase tracking-widest italic">
                                     {{ $user->is_active ? 'Active' : 'Locked' }}
                                 </span>
                             </td>
@@ -80,7 +80,7 @@
                                         @csrf @method('PATCH')
                                         <input type="hidden" name="is_active" value="{{ $user->is_active ? '0' : '1' }}">
                                         <input type="hidden" name="role" value="{{ $user->getRoleNames()->first() ?? 'buyer' }}">
-                                        <button class="flex h-9 px-4 items-center gap-2 rounded-xl {{ $user->is_active ? 'bg-amber-50 text-amber-600 border-amber-100 hover:bg-amber-100' : 'bg-emerald-50 text-emerald-600 border-emerald-100 hover:bg-emerald-100' }} border transition-all shadow-premium group/btn">
+                                        <button class="flex h-9 px-4 items-center gap-2 rounded-xl {{ $user->is_active ? 'bg-amber-50 text-accent border-accent hover:bg-accent' : 'bg-emerald-50 text-primary border-primary hover:bg-primary' }} border transition-all shadow-premium group/btn">
                                             <i class="fa-solid {{ $user->is_active ? 'fa-user-slash' : 'fa-user-check' }} text-[10px] transition-transform group-hover/btn:scale-110"></i>
                                             <span class="text-[9px] font-black uppercase tracking-widest italic">{{ $user->is_active ? 'Lock' : 'Unlock' }}</span>
                                         </button>
@@ -89,7 +89,7 @@
                                     @if(auth()->id() !== $user->id)
                                         <form method="POST" action="{{ route('admin.users.destroy', $user) }}" class="inline" onsubmit="return confirm('Purge this identity?');">
                                             @csrf @method('DELETE')
-                                            <button class="flex h-9 px-4 items-center gap-2 rounded-xl bg-rose-50 text-rose-500 border border-rose-100 hover:bg-rose-500 hover:text-white transition-all shadow-premium group/btn">
+                                            <button class="flex h-9 px-4 items-center gap-2 rounded-xl bg-rose-50 text-warning border border-warning hover:bg-warning hover:text-white transition-all shadow-premium group/btn">
                                                 <i class="fa-solid fa-trash-can text-[10px] transition-transform group-hover/btn:scale-110"></i>
                                                 <span class="text-[9px] font-black uppercase tracking-widest italic">Purge</span>
                                             </button>

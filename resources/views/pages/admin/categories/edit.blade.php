@@ -69,7 +69,7 @@
 
         <label class="flex items-center gap-3 cursor-pointer group">
             <input type="checkbox" name="is_active" value="1" @checked(old('is_active', $category->is_active)) class="hidden peer">
-            <div class="h-6 w-11 bg-accent rounded-full p-1 transition-colors peer-checked:bg-emerald-500 border border-border">
+            <div class="h-6 w-11 bg-accent rounded-full p-1 transition-colors peer-checked:bg-primary border border-border">
                 <div class="h-4 w-4 bg-card rounded-full transition-transform peer-checked:translate-x-5 shadow-sm"></div>
             </div>
             <span class="text-[10px] font-black text-muted-foreground uppercase tracking-widest italic group-hover:text-foreground transition-colors flex items-center gap-2">

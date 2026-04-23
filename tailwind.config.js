@@ -23,7 +23,14 @@ export default {
                 },
                 primary: {
                     DEFAULT: 'var(--primary)',
+                    hover: 'var(--primary-hover)',
                     foreground: 'var(--primary-foreground)'
+                },
+                dark: {
+                    DEFAULT: 'var(--dark)'
+                },
+                warning: {
+                    DEFAULT: 'var(--warning)'
                 },
                 accent: {
                     DEFAULT: 'var(--accent)',

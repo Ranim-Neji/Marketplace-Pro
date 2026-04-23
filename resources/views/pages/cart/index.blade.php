@@ -28,7 +28,7 @@
                         <span class="text-[11px] font-bold text-muted-foreground uppercase tracking-widest font-mono">Products ({{ $cart->item_count }})</span>
                         <form method="POST" action="{{ route('cart.clear') }}">
                             @csrf @method('DELETE')
-                            <button class="text-[11px] font-bold text-red-500 hover:text-red-600 uppercase tracking-widest hover:underline transition-colors font-mono">
+                            <button class="text-[11px] font-bold text-warning hover:text-warning uppercase tracking-widest hover:underline transition-colors font-mono">
                                 Clear Cart
                             </button>
                         </form>
@@ -81,7 +81,7 @@
                                     {{-- Purge --}}
                                     <form method="POST" action="{{ route('cart.remove', $item) }}">
                                         @csrf @method('DELETE')
-                                        <button class="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-red-500 hover:bg-red-50 transition-colors">
+                                        <button class="h-8 w-8 flex items-center justify-center rounded-md text-muted-foreground hover:text-warning hover:bg-red-50 transition-colors">
                                             <i class="fa-solid fa-xmark"></i>
                                         </button>
                                     </form>

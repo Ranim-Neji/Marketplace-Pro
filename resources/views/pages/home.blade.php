@@ -9,7 +9,7 @@
                 <x-badge variant="primary" class="animate-fade-in inline-flex">Marketplace v1.0</x-badge>
                 
                 <h1 class="text-5xl lg:text-7xl font-bold tracking-tight text-foreground leading-[1.1] animate-fade-in font-serif italic" style="animation-delay: 100ms">
-                    Buy and sell products with <span class="text-primary not-italic font-sans">unmatched speed.</span>
+                    Buy and sell products with <span class="bg-gradient-to-r from-primary via-warning to-accent text-transparent bg-clip-text not-italic font-sans">unmatched speed.</span>
                 </h1>
                 
                 <p class="text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed animate-fade-in" style="animation-delay: 200ms">
@@ -23,7 +23,7 @@
                     @auth
                         @if(auth()->user()->isVendor())
                             <a href="{{ route('vendor.products.index') }}">
-                                <x-button variant="secondary" size="lg">Vendor Dashboard</x-button>
+                                <x-button class="!bg-warning hover:!brightness-90 !text-white !border-transparent transition-all" size="lg">Vendor Dashboard</x-button>
                             </a>
                         @else
                             <a href="{{ route('profile.edit') }}?open_vendor_modal=true">

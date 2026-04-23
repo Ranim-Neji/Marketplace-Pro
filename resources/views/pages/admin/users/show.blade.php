@@ -16,7 +16,7 @@
                             {{ $role->name }}
                         </span>
                     @endforeach
-                    <span class="px-4 py-1.5 rounded-xl {{ $user->is_active ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-rose-50 text-rose-600 border-rose-100' }} border text-[10px] font-black uppercase tracking-widest italic">
+                    <span class="px-4 py-1.5 rounded-xl {{ $user->is_active ? 'bg-emerald-50 text-primary border-primary' : 'bg-rose-50 text-warning border-warning' }} border text-[10px] font-black uppercase tracking-widest italic">
                         {{ $user->is_active ? 'Status: Active' : 'Status: Locked' }}
                     </span>
                 </div>
@@ -26,7 +26,7 @@
                     @csrf @method('PATCH')
                     <input type="hidden" name="is_active" value="{{ $user->is_active ? '0' : '1' }}">
                     <input type="hidden" name="role" value="{{ $user->getRoleNames()->first() ?? 'buyer' }}">
-                    <button class="px-8 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-all italic shadow-premium flex items-center gap-2">
+                    <button class="px-8 py-4 bg-dark text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-all italic shadow-premium flex items-center gap-2">
                         <i class="fa-solid {{ $user->is_active ? 'fa-user-slash' : 'fa-user-check' }} text-xs"></i>
                         {{ $user->is_active ? 'Deactivate' : 'Authorize' }}
                     </button>

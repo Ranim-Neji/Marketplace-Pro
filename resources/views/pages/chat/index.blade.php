@@ -12,7 +12,7 @@
         </div>
         <div class="md:ml-auto flex items-center gap-4">
             <div class="px-4 py-2 rounded-xl bg-primary/5 border border-primary/10 flex items-center gap-3">
-                <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="h-2 w-2 rounded-full bg-primary animate-pulse"></span>
                 <span class="text-[9px] font-black uppercase tracking-widest text-primary">Online</span>
             </div>
         </div>
@@ -42,9 +42,9 @@
                         
                         <div class="flex items-center gap-6 relative z-10">
                             <div class="relative">
-                                <div class="absolute -inset-1 bg-gradient-to-tr from-primary to-pink-500 rounded-2xl blur opacity-0 group-hover:opacity-20 transition-opacity"></div>
+                                <div class="absolute -inset-1 bg-gradient-to-tr from-primary to-primary-hover rounded-2xl blur opacity-0 group-hover:opacity-20 transition-opacity"></div>
                                 <img src="{{ $other->avatar_url }}" class="relative h-16 w-16 rounded-2xl object-cover border border-border shadow-sm">
-                                <div class="absolute -bottom-1 -right-1 h-4.5 w-4.5 bg-emerald-500 border-4 border-card rounded-full shadow-sm"></div>
+                                <div class="absolute -bottom-1 -right-1 h-4.5 w-4.5 bg-primary border-4 border-card rounded-full shadow-sm"></div>
                             </div>
                             
                             <div class="flex-1 min-w-0">

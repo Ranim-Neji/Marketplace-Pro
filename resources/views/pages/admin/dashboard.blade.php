@@ -15,9 +15,9 @@
             <div class="text-2xl font-black text-foreground font-mono italic">{{ number_format($totalUsers) }}</div>
         </div>
 
-        <div class="bg-card/90 backdrop-blur-md p-6 rounded-[2rem] border border-border shadow-premium transition-all hover:border-emerald-500/30 group">
+        <div class="bg-card/90 backdrop-blur-md p-6 rounded-[2rem] border border-border shadow-premium transition-all hover:border-primary/30 group">
             <div class="flex justify-between items-start mb-4">
-                <div class="h-8 w-8 bg-emerald-50/50 rounded-lg flex items-center justify-center text-emerald-600 transition-transform group-hover:scale-110">
+                <div class="h-8 w-8 bg-emerald-50/50 rounded-lg flex items-center justify-center text-primary transition-transform group-hover:scale-110">
                     <i class="fa-solid fa-shop text-xs"></i>
                 </div>
             </div>
@@ -25,9 +25,9 @@
             <div class="text-2xl font-black text-foreground font-mono italic">{{ number_format($totalVendors) }}</div>
         </div>
 
-        <div class="bg-card/90 backdrop-blur-md p-6 rounded-[2rem] border border-border shadow-premium transition-all hover:border-sky-500/30 group">
+        <div class="bg-card/90 backdrop-blur-md p-6 rounded-[2rem] border border-border shadow-premium transition-all hover:border-dark/30 group">
             <div class="flex justify-between items-start mb-4">
-                <div class="h-8 w-8 bg-sky-50/50 rounded-lg flex items-center justify-center text-sky-600 transition-transform group-hover:scale-110">
+                <div class="h-8 w-8 bg-sky-50/50 rounded-lg flex items-center justify-center text-dark transition-transform group-hover:scale-110">
                     <i class="fa-solid fa-cart-shopping text-xs"></i>
                 </div>
             </div>
@@ -35,9 +35,9 @@
             <div class="text-2xl font-black text-foreground font-mono italic">{{ number_format($totalBuyers) }}</div>
         </div>
 
-        <div class="bg-card/90 backdrop-blur-md p-6 rounded-[2rem] border border-border shadow-premium transition-all hover:border-amber-500/30 group">
+        <div class="bg-card/90 backdrop-blur-md p-6 rounded-[2rem] border border-border shadow-premium transition-all hover:border-accent/30 group">
             <div class="flex justify-between items-start mb-4">
-                <div class="h-8 w-8 bg-amber-50/50 rounded-lg flex items-center justify-center text-amber-600 transition-transform group-hover:scale-110">
+                <div class="h-8 w-8 bg-amber-50/50 rounded-lg flex items-center justify-center text-accent transition-transform group-hover:scale-110">
                     <i class="fa-solid fa-money-bill-trend-up text-xs"></i>
                 </div>
             </div>
@@ -45,9 +45,9 @@
             <div class="text-2xl font-black text-foreground font-mono italic">${{ number_format($totalRevenue, 0) }}</div>
         </div>
 
-        <div class="bg-card/90 backdrop-blur-md p-6 rounded-[2rem] border border-border shadow-premium transition-all hover:border-rose-500/30 group">
+        <div class="bg-card/90 backdrop-blur-md p-6 rounded-[2rem] border border-border shadow-premium transition-all hover:border-warning/30 group">
             <div class="flex justify-between items-start mb-4">
-                <div class="h-8 w-8 bg-rose-50/50 rounded-lg flex items-center justify-center text-rose-600 transition-transform group-hover:scale-110">
+                <div class="h-8 w-8 bg-rose-50/50 rounded-lg flex items-center justify-center text-warning transition-transform group-hover:scale-110">
                     <i class="fa-solid fa-box text-xs"></i>
                 </div>
             </div>
@@ -55,9 +55,9 @@
             <div class="text-2xl font-black text-foreground font-mono italic">{{ number_format($totalOrders) }}</div>
         </div>
 
-        <div class="bg-card/90 backdrop-blur-md p-6 rounded-[2rem] border border-border shadow-premium transition-all hover:border-purple-500/30 group">
+        <div class="bg-card/90 backdrop-blur-md p-6 rounded-[2rem] border border-border shadow-premium transition-all hover:border-primary-hover/30 group">
             <div class="flex justify-between items-start mb-4">
-                <div class="h-8 w-8 bg-purple-50/50 rounded-lg flex items-center justify-center text-purple-600 transition-transform group-hover:scale-110">
+                <div class="h-8 w-8 bg-purple-50/50 rounded-lg flex items-center justify-center text-primary-hover transition-transform group-hover:scale-110">
                     <i class="fa-solid fa-tags text-xs"></i>
                 </div>
             </div>
@@ -85,13 +85,13 @@
                 @foreach($orderStats as $stat)
                     <div class="flex justify-between items-center group">
                         <div class="flex items-center gap-4">
-                            <div class="h-2 w-2 rounded-full bg-{{ $stat->color ?? 'indigo' }}-500"></div>
+                            <div class="h-2 w-2 rounded-full bg-{{ $stat->color ?? 'primary' }}"></div>
                             <span class="text-[10px] font-black text-muted-foreground uppercase tracking-widest italic group-hover:text-foreground transition-colors">{{ $stat->status }}</span>
                         </div>
                         <span class="text-xs font-black text-foreground font-mono italic">{{ $stat->count }}</span>
                     </div>
                     <div class="w-full h-1 bg-accent rounded-full overflow-hidden">
-                        <div class="h-full bg-{{ $stat->color ?? 'indigo' }}-500" style="width: {{ ($stat->count / max($totalOrders, 1)) * 100 }}%"></div>
+                        <div class="h-full bg-{{ $stat->color ?? 'primary' }}" style="width: {{ ($stat->count / max($totalOrders, 1)) * 100 }}%"></div>
                     </div>
                 @endforeach
             </div>
@@ -146,7 +146,7 @@
                             <div class="relative">
                                 <img src="{{ $user->avatar_url }}" class="h-10 w-10 rounded-lg object-cover">
                                 @if($user->is_active)
-                                    <div class="absolute -bottom-1 -right-1 h-3 w-3 bg-emerald-500 rounded-full border-2 border-card"></div>
+                                    <div class="absolute -bottom-1 -right-1 h-3 w-3 bg-primary rounded-full border-2 border-card"></div>
                                 @endif
                             </div>
                             <div>
@@ -204,12 +204,12 @@
                             <td class="px-8 py-8 text-center">
                                 @php
                                     $colors = [
-                                        'pending' => 'amber', 'processing' => 'sky', 'validated' => 'emerald',
-                                        'shipped' => 'indigo', 'delivered' => 'emerald', 'cancelled' => 'rose', 'completed' => 'slate'
+                                        'pending' => 'accent', 'processing' => 'dark', 'validated' => 'primary',
+                                        'shipped' => 'primary', 'delivered' => 'primary', 'cancelled' => 'warning', 'completed' => 'dark'
                                     ];
                                     $color = $colors[$order->status] ?? 'indigo';
                                 @endphp
-                                <span class="px-3 py-1 rounded-lg bg-{{ $color }}-50/50 text-{{ $color }}-600 border border-{{ $color }}-100 text-[8px] font-black uppercase tracking-widest italic">
+                                <span class="px-3 py-1 rounded-lg bg-{{ $color }}/10 text-{{ $color }} border border-{{ $color }}/20 text-[8px] font-black uppercase tracking-widest italic">
                                     {{ $order->status }}
                                 </span>
                             </td>
@@ -238,10 +238,10 @@ new Chart(ctx, {
         datasets: [{
             label: 'Revenue',
             data: {!! json_encode($revenueValues) !!},
-            borderColor: '#e6067a',
+            borderColor: '#A79DDA',
             borderWidth: 4,
             pointBackgroundColor: '#fff',
-            pointBorderColor: '#e6067a',
+            pointBorderColor: '#A79DDA',
             pointBorderWidth: 2,
             pointRadius: 6,
             pointHoverRadius: 8,
@@ -252,8 +252,8 @@ new Chart(ctx, {
                 const {ctx, chartArea} = chart;
                 if (!chartArea) return null;
                 const gradient = ctx.createLinearGradient(0, chartArea.top, 0, chartArea.bottom);
-                gradient.addColorStop(0, 'rgba(230, 6, 122, 0.1)');
-                gradient.addColorStop(1, 'rgba(230, 6, 122, 0)');
+                gradient.addColorStop(0, 'rgba(167, 157, 218, 0.1)');
+                gradient.addColorStop(1, 'rgba(167, 157, 218, 0)');
                 return gradient;
             }
         }]

@@ -30,9 +30,9 @@
             <div class="text-3xl font-bold text-foreground font-serif italic">{{ $totalProducts }}</div>
         </div>
 
-        <div class="bg-card rounded-2xl border border-border p-8 shadow-sm group hover:border-emerald-500/30 transition-all">
+        <div class="bg-card rounded-2xl border border-border p-8 shadow-sm group hover:border-primary/30 transition-all">
             <div class="flex justify-between items-start mb-6">
-                <div class="h-12 w-12 bg-emerald-500/10 rounded-xl flex items-center justify-center text-emerald-600 transition-transform group-hover:scale-110">
+                <div class="h-12 w-12 bg-primary/10 rounded-xl flex items-center justify-center text-primary transition-transform group-hover:scale-110">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.451 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" /></svg>
                 </div>
             </div>
@@ -40,9 +40,9 @@
             <div class="text-3xl font-bold text-foreground font-serif italic">{{ $totalSalesCount }}</div>
         </div>
 
-        <div class="bg-card rounded-2xl border border-border p-8 shadow-sm group hover:border-amber-500/30 transition-all">
+        <div class="bg-card rounded-2xl border border-border p-8 shadow-sm group hover:border-accent/30 transition-all">
             <div class="flex justify-between items-start mb-6">
-                <div class="h-12 w-12 bg-amber-500/10 rounded-xl flex items-center justify-center text-amber-600 transition-transform group-hover:scale-110">
+                <div class="h-12 w-12 bg-accent/10 rounded-xl flex items-center justify-center text-accent transition-transform group-hover:scale-110">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-6 h-6"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
                 </div>
             </div>

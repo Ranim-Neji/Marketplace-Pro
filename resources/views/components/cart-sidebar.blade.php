@@ -75,7 +75,7 @@
                                     <a href="{{ route('products.show', $item->product) }}" class="text-sm font-semibold text-foreground hover:text-primary truncate transition-colors">{{ $item->product->title }}</a>
                                     <form method="POST" action="{{ route('cart.remove', $item) }}" class="shrink-0">
                                         @csrf @method('DELETE')
-                                        <button class="text-muted-foreground hover:text-red-500 transition-colors">
+                                        <button class="text-muted-foreground hover:text-warning transition-colors">
                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" /></svg>
                                         </button>
                                     </form>

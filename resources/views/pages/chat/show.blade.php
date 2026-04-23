@@ -11,9 +11,9 @@
                 <i class="fa-solid fa-arrow-left text-xs"></i>
             </a>
             <div class="relative group">
-                <div class="absolute -inset-1 bg-gradient-to-tr from-primary to-pink-500 rounded-2xl blur opacity-25 group-hover:opacity-40 transition-opacity"></div>
+                <div class="absolute -inset-1 bg-gradient-to-tr from-primary to-primary-hover rounded-2xl blur opacity-25 group-hover:opacity-40 transition-opacity"></div>
                 <img src="{{ $otherUser->avatar_url }}" class="relative h-12 w-12 rounded-2xl object-cover border-2 border-background shadow-sm">
-                <div class="absolute -bottom-1 -right-1 h-4 w-4 bg-emerald-500 border-2 border-background rounded-full shadow-sm animate-pulse"></div>
+                <div class="absolute -bottom-1 -right-1 h-4 w-4 bg-primary border-2 border-background rounded-full shadow-sm animate-pulse"></div>
             </div>
             <div>
                 <h2 class="text-sm font-black text-foreground uppercase tracking-tighter italic flex items-center gap-2">
@@ -21,8 +21,8 @@
                     <span class="text-[8px] px-2 py-0.5 rounded-full bg-primary/10 text-primary font-black uppercase tracking-widest border border-primary/20">Verified</span>
                 </h2>
                 <div class="flex items-center gap-1.5 mt-1">
-                    <span class="text-[9px] font-black text-emerald-500 uppercase tracking-widest flex items-center gap-1.5">
-                        <span class="h-1 w-1 bg-emerald-500 rounded-full animate-ping"></span>
+                    <span class="text-[9px] font-black text-primary uppercase tracking-widest flex items-center gap-1.5">
+                        <span class="h-1 w-1 bg-primary rounded-full animate-ping"></span>
                         Online
                     </span>
                 </div>
@@ -71,7 +71,7 @@
                 @csrf
                 <div class="relative flex items-center gap-4">
                     <div class="flex-1 relative group">
-                        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary to-pink-500 rounded-2xl blur opacity-0 group-focus-within:opacity-10 transition-opacity"></div>
+                        <div class="absolute -inset-0.5 bg-gradient-to-r from-primary to-primary-hover rounded-2xl blur opacity-0 group-focus-within:opacity-10 transition-opacity"></div>
                         <input id="chatInput" 
                                type="text" 
                                name="body" 

@@ -457,7 +457,7 @@
                     @auth
                         <form method="POST" action="{{ route('logout', absolute: false) }}">
                             @csrf
-                            <button type="submit" class="text-xs font-black uppercase tracking-[0.2em] text-rose-500 hover:text-rose-600 transition-colors flex items-center gap-2">
+                            <button type="submit" class="text-xs font-black uppercase tracking-[0.2em] text-warning hover:text-warning transition-colors flex items-center gap-2">
                                 <i class="fa-solid fa-power-off"></i>
                                 Sign Out
                             </button>

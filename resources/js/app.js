@@ -42,7 +42,7 @@ if (searchInput && searchResults) {
                 if (data.length > 0) {
                     data.forEach(product => {
                         const div = document.createElement('div');
-                        div.className = 'p-4 hover:bg-slate-50 dark:hover:bg-slate-900 transition-colors cursor-pointer border-b border-slate-100 dark:border-slate-800 last:border-0';
+                        div.className = 'p-4 hover:bg-muted dark:hover:bg-dark transition-colors cursor-pointer border-b border-border dark:border-border last:border-0';
                         div.innerHTML = `
                             <a href="/products/${product.slug}" class="flex items-center gap-4">
                                 <img src="${product.image_url}" class="h-10 w-10 rounded-lg object-cover">

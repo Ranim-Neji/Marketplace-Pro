@@ -33,7 +33,7 @@
                     <p class="text-sm mt-2 text-gray-800">
                         {{ __('Your email address is unverified.') }}
 
-                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <button form="send-verification" class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                             {{ __('Click here to re-send the verification email.') }}
                         </button>
                     </p>
@@ -55,13 +55,13 @@
 
         <div>
             <x-input-label for="address" :value="__('Address')" />
-            <textarea id="address" name="address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('address', $user->address) }}</textarea>
+            <textarea id="address" name="address" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary">{{ old('address', $user->address) }}</textarea>
             <x-input-error class="mt-2" :messages="$errors->get('address')" />
         </div>
 
         <div>
             <x-input-label for="bio" :value="__('Bio')" />
-            <textarea id="bio" name="bio" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('bio', $user->bio) }}</textarea>
+            <textarea id="bio" name="bio" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary">{{ old('bio', $user->bio) }}</textarea>
             <x-input-error class="mt-2" :messages="$errors->get('bio')" />
         </div>
 
@@ -73,13 +73,13 @@
 
         <div>
             <x-input-label for="shop_description" :value="__('Shop Description')" />
-            <textarea id="shop_description" name="shop_description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500">{{ old('shop_description', $user->shop_description) }}</textarea>
+            <textarea id="shop_description" name="shop_description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary">{{ old('shop_description', $user->shop_description) }}</textarea>
             <x-input-error class="mt-2" :messages="$errors->get('shop_description')" />
         </div>
 
         <div>
             <x-input-label for="avatar" :value="__('Avatar')" />
-            <input id="avatar" name="avatar" type="file" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500" accept="image/*">
+            <input id="avatar" name="avatar" type="file" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-primary focus:ring-primary" accept="image/*">
             <x-input-error class="mt-2" :messages="$errors->get('avatar')" />
         </div>
 

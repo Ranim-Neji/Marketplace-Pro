@@ -53,12 +53,12 @@
                             <td class="px-8 py-8">
                                 @php
                                     $colors = [
-                                        'pending' => 'amber', 'processing' => 'sky', 'validated' => 'emerald',
-                                        'shipped' => 'indigo', 'delivered' => 'emerald', 'cancelled' => 'rose', 'completed' => 'slate'
+                                        'pending' => 'accent', 'processing' => 'dark', 'validated' => 'primary',
+                                        'shipped' => 'primary', 'delivered' => 'primary', 'cancelled' => 'warning', 'completed' => 'dark'
                                     ];
                                     $color = $colors[$order->status] ?? 'indigo';
                                 @endphp
-                                <span class="px-3 py-1 rounded-lg bg-{{ $color }}-50/50 text-{{ $color }}-600 border border-{{ $color }}-100 text-[8px] font-black uppercase tracking-widest italic">
+                                <span class="px-3 py-1 rounded-lg bg-{{ $color }}/10 text-{{ $color }} border border-{{ $color }}/20 text-[8px] font-black uppercase tracking-widest italic">
                                     {{ $order->status }}
                                 </span>
                             </td>

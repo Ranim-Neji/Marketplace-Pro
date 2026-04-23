@@ -95,8 +95,8 @@
                                 In Stock
                             </span>
                         @else
-                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-red-600 text-[10px] font-bold uppercase tracking-wider border border-red-100">
-                                <div class="h-1.5 w-1.5 rounded-full bg-red-500"></div>
+                            <span class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-red-50 text-warning text-[10px] font-bold uppercase tracking-wider border border-warning">
+                                <div class="h-1.5 w-1.5 rounded-full bg-warning"></div>
                                 Out of Stock
                             </span>
                         @endif
@@ -271,7 +271,7 @@
                                     @if(auth()->check() && (auth()->id() === $review->user_id || auth()->user()->isAdmin()))
                                         <form method="POST" action="{{ route('reviews.destroy', $review) }}" class="mt-3">
                                             @csrf @method('DELETE')
-                                            <button class="text-[11px] font-medium text-red-500 hover:text-red-600 transition-colors"
+                                            <button class="text-[11px] font-medium text-warning hover:text-warning transition-colors"
                                                     onclick="return confirm('Delete this review?')">
                                                 Delete
                                             </button>

@@ -13,13 +13,18 @@
         --foreground: #0f172a;
         --muted-foreground: #475569;
 
-        /* === PRIMARY (KEEP YOUR PINK BUT CLEANER) === */
-        --primary: #e6067a;
+        /* === PRIMARY (NEW THEME) === */
+        --primary: #C91C7A;
+        --primary-hover: #68097E;
         --primary-foreground: #ffffff;
 
-        /* === ACCENTS (SOFT, NOT FLASHY) === */
-        --accent: #f8fafc;
-        --accent-foreground: #e6067a;
+        /* === NEW UNIFIED DESIGN SYSTEM === */
+        --dark: #3F194D;
+        --warning: #E8675C;
+
+        /* === ACCENTS === */
+        --accent: #FFCA06;
+        --accent-foreground: #1f1f2a;
 
         /* === UI ELEMENTS === */
         --border: #e2e8f0;
@@ -29,21 +34,21 @@
         /* === SIDEBAR === */
         --sidebar: #fafafa;
         --sidebar-border: #eeeeee;
-        --sidebar-accent: #fff0f6;
+        --sidebar-accent: #fcf1f5;
         --sidebar-foreground: #1f1f2a;
-        --sidebar-primary: #e6067a;
+        --sidebar-primary: #C91C7A;
         --sidebar-primary-foreground: #ffffff;
 
         /* === RING / FOCUS === */
-        --ring: rgba(230, 6, 122, 0.25);
-        --sidebar-ring: rgba(230, 6, 122, 0.25);
+        --ring: rgba(201, 28, 122, 0.25);
+        --sidebar-ring: rgba(201, 28, 122, 0.25);
 
-        /* === CHART COLORS (SOFT PREMIUM GRADIENT SET) === */
-        --chart-1: #e6067a;
-        --chart-2: #ff4da6;
-        --chart-3: #ff85c2;
-        --chart-4: #ffd1e8;
-        --chart-5: #f8b4d9;
+        /* === CHART COLORS === */
+        --chart-1: #C91C7A;
+        --chart-2: #68097E;
+        --chart-3: #FFCA06;
+        --chart-4: #E8675C;
+        --chart-5: #3F194D;
 
         /* === TYPOGRAPHY === */
         --font-sans: 'Poppins', sans-serif;

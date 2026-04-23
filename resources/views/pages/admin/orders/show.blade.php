@@ -11,7 +11,7 @@
             <div class="text-[9px] font-bold text-muted-foreground uppercase tracking-widest mt-2 italic">Established: {{ $order->created_at->format('M d, Y • H:i:s') }}</div>
         </div>
         <div class="flex gap-4">
-            <button onclick="window.print()" class="px-8 py-4 bg-slate-900 text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-all italic flex items-center gap-2">
+            <button onclick="window.print()" class="px-8 py-4 bg-dark text-white rounded-2xl text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-all italic flex items-center gap-2">
                 <i class="fa-solid fa-print"></i>
                 Print Manifest
             </button>

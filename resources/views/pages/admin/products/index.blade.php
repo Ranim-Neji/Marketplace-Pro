@@ -22,10 +22,10 @@
             </select>
             <button class="bg-primary text-white px-8 rounded-2xl text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-opacity italic shadow-premium">Filter</button>
             @if(request()->anyFilled(['search', 'status']))
-                <a href="{{ route('admin.products.index') }}" class="px-6 py-4 rounded-2xl bg-accent text-muted-foreground text-[10px] font-black uppercase tracking-widest hover:text-rose-500 transition-all italic">Clear</a>
+                <a href="{{ route('admin.products.index') }}" class="px-6 py-4 rounded-2xl bg-accent text-muted-foreground text-[10px] font-black uppercase tracking-widest hover:text-warning transition-all italic">Clear</a>
             @endif
         </form>
-        <a href="{{ route('admin.products.create') }}" class="w-full md:w-auto px-10 py-4 bg-slate-900 dark:bg-white text-white dark:text-black rounded-2xl text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-opacity italic shadow-premium text-center">
+        <a href="{{ route('admin.products.create') }}" class="w-full md:w-auto px-10 py-4 bg-dark dark:bg-white text-white dark:text-black rounded-2xl text-[10px] font-black uppercase tracking-widest hover:opacity-90 transition-opacity italic shadow-premium text-center">
             New Product
         </a>
     </div>
@@ -52,7 +52,7 @@
                                     <div class="relative">
                                         <img src="{{ $product->image_url }}" class="h-12 w-12 rounded-xl border border-border object-cover shadow-sm">
                                         @if($product->is_featured)
-                                            <div class="absolute -top-2 -right-2 h-5 w-5 bg-amber-400 rounded-full flex items-center justify-center text-[8px] text-white border-2 border-card shadow-sm">
+                                            <div class="absolute -top-2 -right-2 h-5 w-5 bg-accent rounded-full flex items-center justify-center text-[8px] text-white border-2 border-card shadow-sm">
                                                 <i class="fa-solid fa-star"></i>
                                             </div>
                                         @endif
@@ -71,7 +71,7 @@
                                     $statusColors = ['active' => 'emerald', 'inactive' => 'rose', 'draft' => 'slate'];
                                     $color = $statusColors[$product->status] ?? 'slate';
                                 @endphp
-                                <span class="px-3 py-1 rounded-lg bg-{{ $color }}-50/50 text-{{ $color }}-600 border border-{{ $color }}-100 text-[8px] font-black uppercase tracking-widest italic">
+                                <span class="px-3 py-1 rounded-lg bg-{{ $color }}/10 text-{{ $color }} border border-{{ $color }}/20 text-[8px] font-black uppercase tracking-widest italic">
                                     {{ $product->status }}
                                 </span>
                             </td>
@@ -79,13 +79,13 @@
                                 <div class="text-xs font-black text-foreground font-mono italic">${{ number_format($product->price, 2) }}</div>
                             </td>
                             <td class="px-8 py-8">
-                                <div class="text-xs font-black {{ $product->stock < 10 ? 'text-rose-500' : 'text-muted-foreground' }} font-mono italic">{{ $product->stock }} units</div>
+                                <div class="text-xs font-black {{ $product->stock < 10 ? 'text-warning' : 'text-muted-foreground' }} font-mono italic">{{ $product->stock }} units</div>
                             </td>
                             <td class="px-10 py-8 text-right">
                                 <div class="flex justify-end items-center gap-2">
                                     <form method="POST" action="{{ route('admin.products.toggle-featured', $product) }}" class="inline">
                                         @csrf @method('PATCH')
-                                        <button class="flex h-9 px-4 items-center gap-2 rounded-xl {{ $product->is_featured ? 'bg-amber-400 text-white shadow-premium border-amber-400' : 'bg-card text-muted-foreground border-border' }} border transition-all group/btn">
+                                        <button class="flex h-9 px-4 items-center gap-2 rounded-xl {{ $product->is_featured ? 'bg-accent text-white shadow-premium border-accent' : 'bg-card text-muted-foreground border-border' }} border transition-all group/btn">
                                             <i class="fa-solid fa-star text-[10px] transition-transform group-hover/btn:scale-110"></i>
                                             <span class="text-[9px] font-black uppercase tracking-widest italic">{{ $product->is_featured ? 'Featured' : 'Feature' }}</span>
                                         </button>
@@ -103,7 +103,7 @@
 
                                     <form method="POST" action="{{ route('admin.products.destroy', $product) }}" class="inline" onsubmit="return confirm('Purge asset?');">
                                         @csrf @method('DELETE')
-                                        <button class="flex h-9 px-4 items-center gap-2 rounded-xl bg-rose-50 text-rose-500 border border-rose-100 hover:bg-rose-500 hover:text-white transition-all shadow-premium group/btn">
+                                        <button class="flex h-9 px-4 items-center gap-2 rounded-xl bg-rose-50 text-warning border border-warning hover:bg-warning hover:text-white transition-all shadow-premium group/btn">
                                             <i class="fa-solid fa-trash-can text-[10px] transition-transform group-hover/btn:scale-110"></i>
                                             <span class="text-[9px] font-black uppercase tracking-widest italic">Delete</span>
                                         </button>
