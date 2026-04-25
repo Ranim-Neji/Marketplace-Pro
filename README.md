@@ -58,6 +58,7 @@ MarketPlace Pro is a premium, production-ready e-commerce platform built with **
    php artisan key:generate
    php artisan storage:link
    ```
+   To enable the AI Assistant chat widget, set `GEMINI_API_KEY` in `.env` (avoid leading/trailing spaces).
 
 3. **Database Configuration**
    Configure your database credentials in `.env`, then run:

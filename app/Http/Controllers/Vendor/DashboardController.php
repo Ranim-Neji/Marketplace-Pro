@@ -15,6 +15,7 @@ class DashboardController extends Controller
         $user = Auth::user();
         
         $totalProducts = $user->products()->count();
+        $totalServices = $user->services()->count();
         
         // Count total orders that contain this vendor's products
         $totalSalesCount = OrderItem::whereIn('product_id', $user->products()->pluck('id'))->count();
@@ -39,7 +40,7 @@ class DashboardController extends Controller
             ->get();
 
         return view('pages.vendor.dashboard', compact(
-            'totalProducts', 'totalSalesCount', 'totalRevenue', 'recentProducts', 'recentSales'
+            'totalProducts', 'totalServices', 'totalSalesCount', 'totalRevenue', 'recentProducts', 'recentSales'
         ));
     }
 }

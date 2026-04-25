@@ -11,6 +11,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\VendorController;
+use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\WishlistController;
 use Illuminate\Support\Facades\Route;
 
@@ -18,6 +19,8 @@ Route::get('/', [CatalogController::class, 'index'])->name('home');
 Route::get('/catalogue', [CatalogController::class, 'index'])->name('catalog.index');
 Route::get('/search', [CatalogController::class, 'search'])->name('catalog.search');
 Route::get('/products/{product:slug}', [ProductController::class, 'show'])->name('products.show');
+Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+Route::get('/services/{service:slug}', [ServiceController::class, 'show'])->name('services.show');
 Route::get('/vendors/{user}', [VendorController::class, 'show'])->name('vendors.show');
 
 Route::middleware(['auth', 'verified', 'active'])->get('/dashboard', function () {
@@ -88,6 +91,7 @@ Route::middleware(['auth', 'active'])->group(function () {
 Route::middleware(['auth', 'verified', 'active', 'vendor'])->prefix('vendor')->name('vendor.')->group(function () {
     Route::get('/dashboard', [\App\Http\Controllers\Vendor\DashboardController::class, 'index'])->name('dashboard');
     Route::resource('products', ProductController::class)->except(['show']);
+    Route::resource('services', ServiceController::class)->except(['show']);
 });
 
 Route::middleware(['auth', 'verified', 'active', 'admin'])->prefix('admin')->name('admin.')->group(function () {
@@ -98,6 +102,7 @@ Route::middleware(['auth', 'verified', 'active', 'admin'])->prefix('admin')->nam
     Route::patch('/orders/{order}/status', [Admin\OrderController::class, 'updateStatus'])->name('orders.status');
     Route::patch('/products/{product}/toggle-featured', [Admin\ProductController::class, 'toggleFeatured'])->name('products.toggle-featured');
     Route::resource('products', Admin\ProductController::class);
+    Route::resource('services', ServiceController::class);
 });
 
 require __DIR__.'/auth.php';

@@ -38,6 +38,7 @@
             $navItems = [
                 ['name' => 'Home', 'route' => 'home'],
                 ['name' => 'Shop', 'route' => 'catalog.index'],
+                ['name' => 'Services', 'route' => 'services.index'],
             ];
 
             if (Auth::check()) {
@@ -45,9 +46,11 @@
                     $navItems[] = ['name' => 'Admin Dashboard', 'route' => 'admin.dashboard'];
                     $navItems[] = ['name' => 'Users', 'route' => 'admin.users.index'];
                     $navItems[] = ['name' => 'Products', 'route' => 'admin.products.index'];
+                    $navItems[] = ['name' => 'Services', 'route' => 'admin.services.index'];
                 } elseif (Auth::user()->isVendor()) {
                     $navItems[] = ['name' => 'Dashboard', 'route' => 'vendor.dashboard'];
                     $navItems[] = ['name' => 'My Products', 'route' => 'vendor.products.index'];
+                    $navItems[] = ['name' => 'My Services', 'route' => 'vendor.services.index'];
                 } else {
                     $navItems[] = ['name' => 'Orders', 'route' => 'orders.index'];
                 }

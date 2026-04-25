@@ -135,6 +135,7 @@ class="sticky top-0 inset-x-0 z-50 h-16 transition-all duration-300">
             <nav class="flex flex-col gap-4">
                 <a href="{{ route('home') }}" class="text-lg font-black uppercase tracking-tighter italic {{ request()->routeIs('home') ? 'text-primary' : 'text-foreground' }}">Home</a>
                 <a href="{{ route('catalog.index') }}" class="text-lg font-black uppercase tracking-tighter italic {{ request()->routeIs('catalog.*') ? 'text-primary' : 'text-foreground' }}">Shop</a>
+                <a href="{{ route('services.index') }}" class="text-lg font-black uppercase tracking-tighter italic {{ request()->routeIs('services.index') ? 'text-primary' : 'text-foreground' }}">Services</a>
                 @auth
                     @if(auth()->user()->isAdmin())
                         <a href="{{ route('admin.dashboard') }}" class="text-lg font-black uppercase tracking-tighter italic text-primary">Admin Panel</a>

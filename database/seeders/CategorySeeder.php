@@ -16,6 +16,10 @@ class CategorySeeder extends Seeder
             ['name' => 'Home & Garden', 'description' => 'Furniture, decor, and tools.'],
             ['name' => 'Beauty & Health', 'description' => 'Cosmetics and personal care.'],
             ['name' => 'Sports & Outdoors', 'description' => 'Gear for your next adventure.'],
+            ['name' => 'Digital Services', 'description' => 'Web dev, SEO, and IT solutions.'],
+            ['name' => 'Creative Arts', 'description' => 'Design, Photography, and Video.'],
+            ['name' => 'Professional Services', 'description' => 'Legal, Accounting, and Consulting.'],
+            ['name' => 'Education & Tutoring', 'description' => 'Learn new skills with experts.'],
         ];
 
         foreach ($categories as $cat) {

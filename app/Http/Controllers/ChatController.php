@@ -7,8 +7,10 @@ use App\Models\Message;
 use App\Models\User;
 use App\Events\MessageSent;
 use Illuminate\Http\Request;
+use Illuminate\Http\Client\ConnectionException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class ChatController extends Controller
 {
@@ -148,19 +150,29 @@ class ChatController extends Controller
     {
         $request->validate(['body' => 'required|string|max:1000']);
 
-        $apiKey = env('GEMINI_API_KEY');
-        $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=' . $apiKey;
+        $apiKey = trim((string) env('GEMINI_API_KEY', ''));
+        if ($apiKey === '') {
+            return response()->json([
+                'success' => false,
+                'message' => 'AI service is not configured (missing GEMINI_API_KEY).',
+            ], 500);
+        }
+
+        $url = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent';
 
         try {
-            $response = Http::post($url, [
-                'contents' => [
-                    [
-                        'parts' => [
-                            ['text' => $request->body]
-                        ]
-                    ]
-                ]
-            ]);
+            $response = Http::timeout(20)
+                ->withoutVerifying()
+                ->withQueryParameters(['key' => $apiKey])
+                ->post($url, [
+                    'contents' => [
+                        [
+                            'parts' => [
+                                ['text' => $request->body],
+                            ],
+                        ],
+                    ],
+                ]);
 
             if ($response->successful()) {
                 $data = $response->json();
@@ -175,15 +187,39 @@ class ChatController extends Controller
                     ]
                 ]);
             } else {
+                Log::warning('Gemini API returned non-success response.', [
+                    'status' => $response->status(),
+                    'body' => $response->body(),
+                ]);
+
                 return response()->json([
                     'success' => false,
-                    'message' => 'Failed to connect to the AI service. Please try again later.'
-                ], 500);
+                    'message' => config('app.debug')
+                        ? ($response->json('error.message') ?? ('AI service returned an error (HTTP ' . $response->status() . ').'))
+                        : 'Failed to connect to the AI service. Please try again later.',
+                ], 502);
             }
-        } catch (\Exception $e) {
+        } catch (ConnectionException $e) {
+            Log::warning('Gemini API connection failed.', [
+                'error' => $e->getMessage(),
+            ]);
+
             return response()->json([
                 'success' => false,
-                'message' => 'An error occurred while connecting to the AI service.'
+                'message' => config('app.debug')
+                    ? ('Connection error: ' . $e->getMessage())
+                    : 'An error occurred while connecting to the AI service.',
+            ], 502);
+        } catch (\Throwable $e) {
+            Log::error('Gemini API request failed unexpectedly.', [
+                'error' => $e->getMessage(),
+            ]);
+
+            return response()->json([
+                'success' => false,
+                'message' => config('app.debug')
+                    ? ('Unexpected error: ' . $e->getMessage())
+                    : 'An error occurred while connecting to the AI service.',
             ], 500);
         }
     }
